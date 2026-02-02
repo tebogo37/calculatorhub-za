@@ -1,0 +1,61 @@
+# --- Dependencies ---
+node_modules
+*/node_modules
+package-lock.json # Optional: Keep this if you use npm, remove if you want to commit lockfiles (Recommended to commit lockfiles though)
+yarn.lock         # Keep if using Yarn
+pnpm-lock.yaml    # Keep if using PNPM
+
+# --- Next.js (Web) ---
+.next/
+out/
+build/
+web/.next
+web/out
+
+# --- Sanity (Studio) ---
+.sanity/
+studio/dist
+studio/.sanity
+studio/node_modules
+
+# --- Firebase ---
+.firebase/
+firebase-debug.log
+firebase-debug.log*
+
+# --- Environment Variables (CRITICAL SAFETY) ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.env.*
+
+# --- Vercel ---
+.vercel
+
+# --- Logs ---
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Build Outputs ---
+dist
+dist-ssr
+
+# --- Editor / OS Files ---
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
