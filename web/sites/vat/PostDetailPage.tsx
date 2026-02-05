@@ -1,4 +1,6 @@
 
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { client, queries, MOCK_POSTS } from '../../lib/sanity';
 import { RichText } from '../../components/shared/RichText';
@@ -46,7 +48,7 @@ export const PostDetailPage: React.FC<{ site: string; slug: string; onBack: () =
   );
 
   return (
-    <article className="max-w-3xl mx-auto py-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <article className="max-w-3xl mx-auto py-12 px-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <button 
         onClick={onBack}
         className="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-emerald-600 transition-colors mb-8 group"

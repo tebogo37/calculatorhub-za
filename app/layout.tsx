@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { Metadata } from 'next';
 import Script from 'next/script';
@@ -18,19 +19,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Google AdSense */}
         <Script 
           async 
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" 
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-        
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
       </head>
-      <body className="bg-gray-50 text-slate-900 selection:bg-emerald-100 selection:text-emerald-900">
+      <body>
         {children}
       </body>
     </html>

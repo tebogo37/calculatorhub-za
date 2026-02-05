@@ -22,7 +22,7 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "typeRoots": ["./node_modules/@types"]
+    "types": ["react", "react-dom", "node"]
   },
   "include": [
     "next-env.d.ts",
@@ -32,7 +32,9 @@
     "web/**/*.ts",
     "web/**/*.tsx",
     "sites/**/*.ts",
-    "sites/**/*.tsx"
+    "sites/**/*.tsx",
+    "app/**/*.ts",
+    "app/**/*.tsx"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,10 +1,12 @@
 
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { Card } from '../../components/ui/Card';
 import { Input } from '../../components/ui/Input';
 import { VAT_RATE } from '../../lib/constants';
 import { formatCurrency } from '../../lib/utils';
-import { Calculator, ArrowRightLeft, ShieldCheck, HelpCircle } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { RecentPosts } from '../../components/shared/RecentPosts';
 import { AdSpace } from '../../components/shared/AdSpace';
 import { MOCK_SITE_CONTENT } from '../../lib/sanity';
@@ -51,7 +53,7 @@ export const VatPage: React.FC<{ onNavigatePost: (slug: string) => void }> = ({ 
 
   return (
     <div className="max-w-5xl mx-auto space-y-12 animate-in fade-in duration-700 py-12">
-      <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="space-y-4 text-center md:text-left max-w-2xl">
         <h1 className="text-5xl font-black tracking-tight text-slate-900 leading-tight">VAT Calculator <span className="text-emerald-500">15% SA</span></h1>
         <p className="text-slate-500 text-lg leading-relaxed">{content.summary}</p>
