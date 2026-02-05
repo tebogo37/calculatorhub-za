@@ -8,7 +8,7 @@ import { RecentPosts } from '../../components/shared/RecentPosts';
 import { AdSpace } from '../../components/shared/AdSpace';
 import { MOCK_SITE_CONTENT } from '../../lib/sanity';
 
-export const TaxPage: React.FC<{ onNavigatePost: (slug: string) => void }> = ({ onNavigatePost }) => {
+export const TaxPage: React.FC<{ onNavigatePost: (path: string) => void }> = ({ onNavigatePost }) => {
   const [salary, setSalary] = useState<string>('450000');
   const [period, setPeriod] = useState<'monthly' | 'annual'>('annual');
   const [age, setAge] = useState<number>(25);
@@ -49,8 +49,10 @@ export const TaxPage: React.FC<{ onNavigatePost: (slug: string) => void }> = ({ 
           <h1 className="text-5xl font-black text-slate-900 leading-tight">Income Tax <span className="text-emerald-500">Calculator</span></h1>
           <p className="text-slate-500 text-lg leading-relaxed">{content.summary}</p>
         </div>
-        {/* Fixed: Use onNavigatePost (aliased from navigateTo in App.tsx) instead of raw window.history */}
-        <button onClick={() => onNavigatePost('refund-estimator')} className="flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-[1.5rem] font-black hover:bg-slate-800 transition-all shadow-2xl active:scale-95">
+        <button 
+          onClick={() => onNavigatePost('refund-estimator')} 
+          className="flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-[1.5rem] font-black hover:bg-slate-800 transition-all shadow-2xl active:scale-95"
+        >
           <Sparkles className="text-emerald-400" size={24} /> Refund Estimator
         </button>
       </div>

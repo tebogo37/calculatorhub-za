@@ -33,7 +33,6 @@ const App: React.FC = () => {
       const pathSegments = path.split('/').filter(Boolean);
       const firstSegment = pathSegments[0];
       
-      // Determine site based on hostname OR first path segment (for localhost/direct nav)
       let detectedSite: SiteType = 'home';
       
       if (hostname.startsWith('vat.')) detectedSite = 'vat';
@@ -47,13 +46,11 @@ const App: React.FC = () => {
       
       setActiveSite(detectedSite);
 
-      // Determine page based on path
       if (path === '/resources') setCurrentPage('resources');
       else if (path === '/tax-history') setCurrentPage('tax-history');
       else if (path === '/refund-estimator') setCurrentPage('refund-estimator');
       else if (path === '/tfsa-guide') setCurrentPage('tfsa-guide');
       else {
-        // Handle Blog Posts
         const possibleSlug = pathSegments.length > 1 ? pathSegments[1] : pathSegments[0];
         const reservedPaths = ['vat', 'tax', 'property', 'twopot', 'resources', 'tax-history', 'refund-estimator', 'tfsa-guide', 'links'];
         
