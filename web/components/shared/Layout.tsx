@@ -1,3 +1,4 @@
+'use client';
 
 import React, { useState } from 'react';
 import { Calculator, BookOpen, Sparkles, PhoneCall, Menu, X, Zap, ArrowRight } from 'lucide-react';

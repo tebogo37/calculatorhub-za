@@ -1,3 +1,4 @@
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { client, queries, MOCK_POSTS } from '../../lib/sanity';

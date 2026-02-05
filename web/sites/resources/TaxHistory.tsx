@@ -1,3 +1,4 @@
+'use client';
 
 import React from 'react';
 import { Card } from '../../components/ui/Card';
@@ -25,11 +26,13 @@ export const TaxHistory: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       await navigator.share({
         title: 'SA Tax History 2016-2026',
         text: 'Visualizing 10 years of South African tax policy shifts.',
-        url: window.location.href,
+        url: typeof window !== 'undefined' ? window.location.href : '',
       });
     } catch (err) {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+      if (typeof navigator !== 'undefined' && navigator.clipboard) {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
     }
   };
 
@@ -55,7 +58,7 @@ export const TaxHistory: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12 space-y-20 animate-in fade-in duration-700 pb-20">
-      <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <button onClick={onBack} className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-emerald-600 transition-colors uppercase tracking-widest">
