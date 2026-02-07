@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { use } from 'react';
 import { Layout } from '../../../../web/components/shared/Layout';
