@@ -1,4 +1,3 @@
-
 import React from 'react';
 import type { Metadata } from 'next';
 import Script from 'next/script';
@@ -7,8 +6,8 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'CalculatorHub SA - Tax, VAT & Property Finance 2026',
   description: 'Premium South African finance tools for VAT, Income Tax (PAYE), and Property Transfer Duty. Accurate for the 2025/2026 SARS tax year.',
-  viewport: 'width=device-width, initial-scale=1',
   robots: 'index, follow',
+  viewport: 'width=device-width, initial-scale=1',
 };
 
 export default function RootLayout({
@@ -29,7 +28,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
       </head>
-      <body>
+      <body className="antialiased bg-gray-50 text-slate-900">
         {children}
       </body>
     </html>

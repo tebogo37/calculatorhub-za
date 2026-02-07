@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -28,7 +27,9 @@ export const PostDetailPage: React.FC<{ site: string; slug: string; onBack: () =
       }
     };
     fetchPost();
-    window.scrollTo(0, 0);
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
   }, [site, slug]);
 
   if (loading) return (
@@ -82,7 +83,7 @@ export const PostDetailPage: React.FC<{ site: string; slug: string; onBack: () =
         </div>
       </header>
 
-      <div className="prose prose-emerald prose-lg">
+      <div className="prose prose-emerald prose-lg max-w-none">
         <RichText value={post.body} />
       </div>
       

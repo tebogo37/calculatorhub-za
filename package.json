@@ -1,6 +1,6 @@
 {
   "name": "calculator-hub-sa",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,10 +11,11 @@
   "dependencies": {
     "@portabletext/react": "^3.2.0",
     "@sanity/client": "^6.27.0",
-    "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "next": "15.1.7",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "clsx": "^2.1.1",
     "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
