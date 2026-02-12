@@ -16,7 +16,9 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "clsx": "^2.1.1",
-    "tailwind-merge": "^2.5.2"
+    "tailwind-merge": "^2.5.2",
+    "@sanity/client": "^6.27.1",
+    "@portabletext/react": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
