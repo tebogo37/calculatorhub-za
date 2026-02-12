@@ -4,36 +4,23 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --font-inter: 'Inter', sans-serif;
-  }
   body {
-    @apply bg-gray-50 text-slate-900;
-    font-family: var(--font-inter);
-    -webkit-font-smoothing: antialiased;
+    @apply bg-slate-50 text-slate-900 selection:bg-emerald-100 selection:text-emerald-900;
   }
 }
 
-.prose h1 { @apply text-3xl font-bold mb-4; }
-.prose h2 { @apply text-2xl font-bold mt-8 mb-4; }
-.prose p { @apply mb-4 leading-relaxed text-slate-600; }
-.prose ul { @apply list-disc ml-5 mb-4; }
-
-@keyframes draw {
-  0% { stroke-dashoffset: 1000; }
-  100% { stroke-dashoffset: 0; }
+.font-inter {
+  font-family: 'Inter', sans-serif;
 }
 
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.animate-draw {
-  animation: draw 1.5s ease-out forwards;
-}
-
-.animate-marquee {
-  display: inline-flex;
-  animation: marquee 40s linear infinite;
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

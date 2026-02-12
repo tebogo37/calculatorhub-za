@@ -6,11 +6,12 @@ export const formatCurrency = (amount: number | undefined | null) => {
   return new Intl.NumberFormat('en-ZA', {
     style: 'currency',
     currency: 'ZAR',
+    minimumFractionDigits: 0,
   }).format(cleanAmount);
 };
 
 export const calculateIncomeTax = (annualSalary: number, age: number = 25) => {
-  const salary = typeof annualSalary === 'number' && !isNaN(annualSalary) ? annualSalary : 0;
+  const salary = Math.max(0, annualSalary);
   if (salary <= 0) return 0;
   
   let tax = 0;
@@ -26,7 +27,6 @@ export const calculateIncomeTax = (annualSalary: number, age: number = 25) => {
     break;
   }
 
-  // Primary Rebate is available to all individuals
   tax -= TAX_REBATES_2026.primary;
   if (age >= 65) tax -= TAX_REBATES_2026.secondary;
   if (age >= 75) tax -= TAX_REBATES_2026.tertiary;
@@ -35,14 +35,13 @@ export const calculateIncomeTax = (annualSalary: number, age: number = 25) => {
 };
 
 export const calculateTwoPotTax = (annualIncome: number, withdrawalAmount: number) => {
-  const inc = isNaN(annualIncome) ? 0 : annualIncome;
-  const withdr = isNaN(withdrawalAmount) ? 0 : withdrawalAmount;
+  const inc = Math.max(0, annualIncome);
+  const withdr = Math.max(0, withdrawalAmount);
   
-  const currentTax = calculateIncomeTax(inc, 30);
-  const totalIncomeWithWithdrawal = inc + withdr;
-  const newTax = calculateIncomeTax(totalIncomeWithWithdrawal, 30);
+  const taxWithout = calculateIncomeTax(inc);
+  const taxWith = calculateIncomeTax(inc + withdr);
   
-  const taxOnWithdrawal = Math.max(0, newTax - currentTax);
+  const taxOnWithdrawal = taxWith - taxWithout;
   const adminFee = Math.min(withdr * 0.01, 500);
   
   return {
@@ -53,6 +52,7 @@ export const calculateTwoPotTax = (annualIncome: number, withdrawalAmount: numbe
   };
 };
 
+// Added calculateTaxRefund to fix the missing export error in RefundEstimator.tsx
 export const calculateTaxRefund = (params: {
   annualSalary: number;
   payePaid: number;
@@ -81,21 +81,21 @@ export const calculateTaxRefund = (params: {
   return {
     finalTaxLiability,
     refundAmount,
-    savingsFromRetirementAnnuity: Math.max(0, taxBeforeRA - taxAfterRA),
+    savingsFromRA: Math.max(0, taxBeforeRA - taxAfterRA),
     medicalCreditTotal: annualMedicalCredit
   };
 };
 
-export const calculateTransferDuty = (propertyValue: number) => {
-  const val = isNaN(propertyValue) ? 0 : propertyValue;
+export const calculateTransferDuty = (val: number) => {
+  const propertyValue = Math.max(0, val);
   let duty = 0;
   let prevLimit = 0;
   for (const bracket of TRANSFER_DUTY_RATES_2026) {
-    if (val > bracket.limit) {
+    if (propertyValue > bracket.limit) {
       prevLimit = bracket.limit;
       continue;
     }
-    const taxableAmount = val - prevLimit;
+    const taxableAmount = propertyValue - prevLimit;
     duty = bracket.base + (taxableAmount * bracket.rate);
     break;
   }

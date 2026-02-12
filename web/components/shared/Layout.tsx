@@ -132,11 +132,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPag
           </div>
         </div>
       </footer>
-
-      <style jsx>{`
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-marquee { display: inline-flex; animation: marquee 40s linear infinite; }
-      `}</style>
     </div>
   );
 };

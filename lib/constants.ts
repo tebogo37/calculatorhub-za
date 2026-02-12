@@ -13,8 +13,8 @@ export const INCOME_TAX_BRACKETS_2026 = [
 
 export const TAX_REBATES_2026 = {
   primary: 17235,
-  secondary: 9444, // 65+
-  tertiary: 3145,   // 75+
+  secondary: 9444,
+  tertiary: 3145,
 };
 
 export const TRANSFER_DUTY_RATES_2026 = [
