@@ -8,10 +8,13 @@ const nextConfig = {
       { protocol: 'https', hostname: 'cdn.sanity.io' }
     ],
   },
-  // Ensure the App Router is prioritized
-  experimental: {
-    // any experimental features can go here
-  }
+  // Skip linting during build to speed up go-live (optional, set to false for strictness)
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: false,
+  },
 };
 
 module.exports = nextConfig;

@@ -1,31 +1,22 @@
+
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Calculator, BookOpen, Sparkles, PhoneCall, Menu, X, Zap, ArrowRight } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
   activeSite: 'home' | 'vat' | 'tax' | 'property' | 'twopot' | 'links';
   currentPage: string;
-  onSiteChange: (site: any) => void;
-  onNavigate: (path: string) => void;
   onOpenCallback?: () => void;
+  // Included to prevent type errors from legacy components still passing these
+  onSiteChange?: (site: string) => void;
+  onNavigate?: (path: string) => void;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPage, onSiteChange, onNavigate, onOpenCallback }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPage, onOpenCallback }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const handleNav = (site: any) => {
-    onSiteChange(site);
-    setIsMenuOpen(false);
-    window.scrollTo(0, 0);
-  };
-
-  const handlePageNav = (path: string) => {
-    onNavigate(path);
-    setIsMenuOpen(false);
-    window.scrollTo(0, 0);
-  };
 
   const metrics = [
     { label: 'ZAR / USD', value: 'R18.42', change: '-0.12%', positive: true },
@@ -39,27 +30,27 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPag
       <div className="sticky top-0 z-[60]">
         <nav className="bg-slate-900 text-white border-b border-slate-800">
           <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-            <div className="flex items-center gap-2 cursor-pointer group" onClick={() => handleNav('home')}>
+            <Link href="/" className="flex items-center gap-2 group">
               <div className="bg-emerald-500 p-2 rounded-xl group-hover:rotate-12 transition-transform">
                 <Calculator size={22} className="text-white" />
               </div>
               <span className="font-black text-2xl tracking-tighter">Calculator<span className="text-emerald-400">Hub</span></span>
-            </div>
+            </Link>
 
             <div className="hidden lg:flex items-center gap-6">
-              <button onClick={() => handleNav('vat')} className={`text-sm font-bold transition-colors ${activeSite === 'vat' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>VAT</button>
-              <button onClick={() => handleNav('tax')} className={`text-sm font-bold transition-colors ${activeSite === 'tax' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>Income Tax</button>
-              <button onClick={() => handleNav('property')} className={`text-sm font-bold transition-colors ${activeSite === 'property' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>Property</button>
-              <button onClick={() => handleNav('twopot')} className={`text-sm font-bold transition-colors ${activeSite === 'twopot' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'} flex items-center gap-1.5`}>
+              <Link href="/vat" className={`text-sm font-bold transition-colors ${activeSite === 'vat' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>VAT</Link>
+              <Link href="/tax" className={`text-sm font-bold transition-colors ${activeSite === 'tax' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>Income Tax</Link>
+              <Link href="/property" className={`text-sm font-bold transition-colors ${activeSite === 'property' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>Property</Link>
+              <Link href="/twopot" className={`text-sm font-bold transition-colors ${activeSite === 'twopot' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'} flex items-center gap-1.5`}>
                  <Zap size={14} className="text-orange-400" /> Two-Pot
-              </button>
+              </Link>
               <div className="h-6 w-px bg-slate-800 mx-2"></div>
-              <button onClick={() => handlePageNav('refund-estimator')} className={`text-sm font-bold flex items-center gap-2 transition-colors ${currentPage === 'refund-estimator' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>
+              <Link href="/refund-estimator" className={`text-sm font-bold flex items-center gap-2 transition-colors ${currentPage === 'refund-estimator' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>
                 <Sparkles size={16} /> Refund Tool
-              </button>
-              <button onClick={() => handlePageNav('resources')} className={`text-sm font-bold flex items-center gap-2 transition-colors ${currentPage === 'resources' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>
+              </Link>
+              <Link href="/resources" className={`text-sm font-bold flex items-center gap-2 transition-colors ${currentPage === 'resources' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>
                 <BookOpen size={16} /> Resources
-              </button>
+              </Link>
             </div>
 
             <div className="flex items-center gap-4">
@@ -74,9 +65,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPag
         </nav>
 
         <div className="bg-slate-900 border-b border-slate-800 py-2.5 overflow-hidden flex items-center relative">
-           <div className="flex-shrink-0 px-6 bg-slate-900 z-10 text-[10px] italic text-slate-500 font-medium whitespace-nowrap">
-             Market Indicators:
-           </div>
            <div className="flex animate-marquee whitespace-nowrap gap-12 flex-grow">
               {[...metrics, ...metrics, ...metrics].map((m, i) => (
                 <div key={i} className="flex items-center gap-3 px-6 border-r border-slate-800 last:border-none">
@@ -86,19 +74,15 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPag
                 </div>
               ))}
            </div>
-           <div className="flex-shrink-0 px-6 bg-slate-900 z-10 text-[9px] italic text-slate-500 font-medium whitespace-nowrap hidden sm:block">
-             Data for illustrative utility purposes only.
-           </div>
         </div>
 
         {isMenuOpen && (
           <div className="lg:hidden bg-slate-900 border-b border-slate-800 p-6 space-y-4 animate-in slide-in-from-top duration-300 shadow-2xl">
-            <button onClick={() => handleNav('vat')} className="w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-white">VAT Hub</button>
-            <button onClick={() => handleNav('tax')} className="w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-white">Income Tax</button>
-            <button onClick={() => handleNav('property')} className="w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-white">Property Duty</button>
-            <button onClick={() => handleNav('twopot')} className="w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-orange-400">Two-Pot System</button>
-            <button onClick={() => handlePageNav('refund-estimator')} className="w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-emerald-400">Refund Estimator</button>
-            <button onClick={() => handlePageNav('resources')} className="w-full text-left py-4 text-lg font-bold text-slate-300">Resource Center</button>
+            <Link href="/vat" className="block w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-white">VAT Hub</Link>
+            <Link href="/tax" className="block w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-white">Income Tax</Link>
+            <Link href="/property" className="block w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-white">Property Duty</Link>
+            <Link href="/twopot" className="block w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-orange-400">Two-Pot System</Link>
+            <Link href="/refund-estimator" className="block w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-emerald-400">Refund Estimator</Link>
             <button onClick={() => { onOpenCallback?.(); setIsMenuOpen(false); }} className="w-full py-5 bg-emerald-500 text-slate-900 font-black rounded-2xl text-center">Compliance Help</button>
           </div>
         )}
@@ -108,9 +92,9 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPag
         <div className="bg-white border-b border-slate-100 py-3">
           <div className="max-w-7xl mx-auto px-4 flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
             <div className="flex gap-6">
-              <span className="flex items-center gap-1.5 text-slate-500 italic">Up-to-date & Compliant Utility Engine</span>
+              <span className="flex items-center gap-1.5 text-slate-500 italic">SARS Reference: 2026 Budget cycle</span>
             </div>
-            <div className="text-slate-300">SARS Reference: 2026 Budget cycle</div>
+            <div className="text-slate-300">Updated: February 2026</div>
           </div>
         </div>
         <div>{children}</div>
@@ -131,25 +115,25 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPag
             <div>
               <h4 className="font-black text-white mb-6 uppercase text-xs tracking-[0.2em]">Ecosystem</h4>
               <ul className="space-y-4 text-sm">
-                <li><button onClick={() => handleNav('vat')} className="hover:text-emerald-400">VAT Hub</button></li>
-                <li><button onClick={() => handleNav('tax')} className="hover:text-emerald-400">Income Tax (PAYE)</button></li>
-                <li><button onClick={() => handleNav('property')} className="hover:text-emerald-400">Transfer Duty</button></li>
-                <li><button onClick={() => handleNav('twopot')} className="hover:text-emerald-400">Two-Pot System</button></li>
+                <li><Link href="/vat" className="hover:text-emerald-400">VAT Hub</Link></li>
+                <li><Link href="/tax" className="hover:text-emerald-400">Income Tax (PAYE)</Link></li>
+                <li><Link href="/property" className="hover:text-emerald-400">Transfer Duty</Link></li>
+                <li><Link href="/twopot" className="hover:text-emerald-400">Two-Pot System</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="font-black text-white mb-6 uppercase text-xs tracking-[0.2em]">Tools</h4>
               <ul className="space-y-4 text-sm">
-                <li><button onClick={() => handlePageNav('refund-estimator')} className="hover:text-emerald-400">Refund Estimator</button></li>
-                <li><button onClick={() => handlePageNav('resources')} className="hover:text-emerald-400">Education Center</button></li>
-                <li><button onClick={() => handleNav('links')} className="hover:text-emerald-400 flex items-center justify-center md:justify-start gap-1">Financial Directory <ArrowRight size={12} /></button></li>
+                <li><Link href="/refund-estimator" className="hover:text-emerald-400">Refund Estimator</Link></li>
+                <li><Link href="/resources" className="hover:text-emerald-400">Education Center</Link></li>
+                <li><Link href="/links" className="hover:text-emerald-400 flex items-center justify-center md:justify-start gap-1">Financial Directory <ArrowRight size={12} /></Link></li>
               </ul>
             </div>
           </div>
         </div>
       </footer>
 
-      <style>{`
+      <style jsx>{`
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .animate-marquee { display: inline-flex; animation: marquee 40s linear infinite; }
       `}</style>

@@ -1,0 +1,15 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/links/page": "app/links/page.js",
+  "/page": "app/page.js",
+  "/property/page": "app/property/page.js",
+  "/refund-estimator/page": "app/refund-estimator/page.js",
+  "/resources/page": "app/resources/page.js",
+  "/sites/property/page": "app/sites/property/page.js",
+  "/sites/tax/page": "app/sites/tax/page.js",
+  "/sites/vat/[slug]/page": "app/sites/vat/[slug]/page.js",
+  "/sites/vat/page": "app/sites/vat/page.js",
+  "/tax/page": "app/tax/page.js",
+  "/twopot/page": "app/twopot/page.js",
+  "/vat/page": "app/vat/page.js"
+}

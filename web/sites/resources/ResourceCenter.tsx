@@ -1,13 +1,18 @@
+
 'use client';
 
 import React, { useState } from 'react';
 import { Card } from '../../components/ui/Card';
 import { LeadMagnetModal } from '../../components/shared/LeadMagnetModal';
 import { FileText, ExternalLink, Book, BarChart3, Download, Calculator, PiggyBank, ShieldCheck } from 'lucide-react';
-import { AdSpace } from '../../components/shared/AdSpace';
 import { MOCK_GUIDES } from '../../lib/sanity';
 
-export const ResourceCenter: React.FC<{ onNavigate: (path: string) => void; onOpenCallback?: () => void }> = ({ onNavigate, onOpenCallback }) => {
+interface ResourceCenterProps {
+  onNavigate: (path: string) => void;
+  onOpenCallback?: () => void;
+}
+
+export const ResourceCenter: React.FC<ResourceCenterProps> = ({ onNavigate, onOpenCallback }) => {
   const [modalState, setModalState] = useState<{ open: boolean; title: string; desc: string; slug: string }>({
     open: false,
     title: '',
@@ -29,7 +34,7 @@ export const ResourceCenter: React.FC<{ onNavigate: (path: string) => void; onOp
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-12 animate-in fade-in duration-700 pb-20">
+    <div className="max-w-6xl mx-auto space-y-12 animate-in fade-in duration-700 pb-20 pt-10 px-4">
       <LeadMagnetModal 
         isOpen={modalState.open} 
         onClose={() => setModalState({ ...modalState, open: false })}
@@ -39,7 +44,7 @@ export const ResourceCenter: React.FC<{ onNavigate: (path: string) => void; onOp
       />
 
       <header className="text-center space-y-6">
-        <h1 className="text-6xl font-black text-slate-900 leading-tight">Expert Finance <span className="text-emerald-500">Resource Hub</span></h1>
+        <h1 className="text-6xl font-black text-slate-900 leading-tight tracking-tighter">Finance <span className="text-emerald-500">Resource Hub</span></h1>
         <p className="text-slate-500 max-w-2xl mx-auto text-xl leading-relaxed">Verified guides, visual tax data, and educational clusters for the 2026 SARS tax year.</p>
       </header>
 
@@ -89,7 +94,7 @@ export const ResourceCenter: React.FC<{ onNavigate: (path: string) => void; onOp
                         <div className="p-4 bg-slate-50 w-fit rounded-2xl text-slate-400 group-hover:text-emerald-500 group-hover:bg-emerald-50 transition-colors">
                            {i === 0 ? <Book size={24} /> : i === 1 ? <Download size={24} /> : <PiggyBank size={24} />}
                         </div>
-                        <h4 className="font-black text-slate-800 text-2xl leading-tight">{g.title.replace('RA', 'Retirement Annuity')}</h4>
+                        <h4 className="font-black text-slate-800 text-2xl leading-tight">{g.title}</h4>
                         <p className="text-sm text-slate-500 leading-relaxed">{g.description}</p>
                      </div>
                      <div className="flex items-center gap-3 text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em]"><Download size={14} /> Access PDF</div>
@@ -98,29 +103,6 @@ export const ResourceCenter: React.FC<{ onNavigate: (path: string) => void; onOp
                ))}
              </div>
           </div>
-
-          <Card title="Interactive Insights" className="border-none shadow-2xl bg-slate-900 text-white rounded-[3rem] p-12 overflow-hidden relative">
-             <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-500/5 rounded-full -mb-48 -mr-48"></div>
-             <div className="flex flex-col md:flex-row items-center gap-12 relative z-10">
-                <div className="md:w-1/2 space-y-6">
-                   <BarChart3 className="text-emerald-400" size={56} />
-                   <h3 className="text-4xl font-black leading-tight">Visual Tax History</h3>
-                   <p className="text-slate-400 text-lg">A decade of high-res analysis of SA tax brackets from 2016 to 2026.</p>
-                   <button onClick={() => onNavigate('tax-history')} className="w-full py-5 bg-emerald-500 rounded-2xl font-black text-slate-900 hover:bg-emerald-400 transition-all shadow-xl">Launch Data Viz</button>
-                </div>
-                <div className="md:w-1/2 bg-white/5 backdrop-blur-md rounded-[2rem] p-8 border border-white/10 space-y-4">
-                   <h4 className="font-black text-emerald-400 uppercase text-xs tracking-widest">2026 Policy Shifts</h4>
-                   <ul className="space-y-4">
-                     {[{ t: 'Two-Pot Withdrawal Limits', d: 'New rules for early access to retirement funds.' }, { t: 'Solar Rebate Final Call', d: 'Claim 25% of panel costs before tax sunset.' }].map((u, i) => (
-                       <li key={i} className="flex items-start gap-4 text-sm group">
-                         <div className="w-2 h-2 bg-emerald-500 rounded-full mt-1.5 shrink-0 group-hover:scale-150 transition-all"></div>
-                         <div><p className="font-bold text-white">{u.t}</p><p className="text-xs text-slate-400">{u.d}</p></div>
-                       </li>
-                     ))}
-                   </ul>
-                </div>
-             </div>
-          </Card>
         </div>
 
         <div className="space-y-8">
@@ -128,7 +110,7 @@ export const ResourceCenter: React.FC<{ onNavigate: (path: string) => void; onOp
              <div className="w-20 h-20 bg-white/10 rounded-3xl flex items-center justify-center mx-auto"><ShieldCheck size={40} className="text-blue-100" /></div>
              <div className="space-y-2">
                 <h4 className="font-black text-2xl leading-tight">Compliance Help</h4>
-                <p className="text-blue-100 leading-relaxed">Need a verified Tax Practitioner? Our verified network offers SARS audits from R750.</p>
+                <p className="text-blue-100 leading-relaxed">Need a verified Tax Practitioner? Verified network starting at R750.</p>
              </div>
              <button onClick={onOpenCallback} className="w-full bg-white text-blue-600 font-black py-4 rounded-2xl shadow-xl hover:bg-blue-50 transition-colors">Book Consultation</button>
           </div>
@@ -136,7 +118,6 @@ export const ResourceCenter: React.FC<{ onNavigate: (path: string) => void; onOp
           <Card title="Government Portals" className="bg-white border-slate-100 rounded-[2.5rem] p-8">
              <ul className="space-y-4">
                <li><a href="https://www.sars.gov.za" target="_blank" className="flex items-center justify-between group p-4 bg-slate-50 rounded-2xl hover:bg-emerald-50 transition-all"><span className="font-bold text-slate-700 group-hover:text-emerald-600">SARS eFiling</span><ExternalLink size={16} className="text-slate-400" /></a></li>
-               <li><a href="https://www.treasury.gov.za" target="_blank" className="flex items-center justify-between group p-4 bg-slate-50 rounded-2xl hover:bg-emerald-50 transition-all"><span className="font-bold text-slate-700 group-hover:text-emerald-600">National Treasury</span><ExternalLink size={16} className="text-slate-400" /></a></li>
              </ul>
           </Card>
         </div>

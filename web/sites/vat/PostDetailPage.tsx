@@ -16,11 +16,11 @@ export const PostDetailPage: React.FC<{ site: string; slug: string; onBack: () =
         if (data) {
           setPost(data);
         } else {
-          const mock = MOCK_POSTS.find(p => p.slug === slug && p.targetSite === site);
+          const mock = MOCK_POSTS.find(p => p.slug === slug);
           setPost(mock || null);
         }
       } catch (err) {
-        const mock = MOCK_POSTS.find(p => p.slug === slug && p.targetSite === site);
+        const mock = MOCK_POSTS.find(p => p.slug === slug);
         setPost(mock || null);
       } finally {
         setLoading(false);
