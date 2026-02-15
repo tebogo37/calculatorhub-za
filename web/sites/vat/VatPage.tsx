@@ -2,14 +2,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Card } from '../../components/ui/Card';
-import { Input } from '../../components/ui/Input';
-import { VAT_RATE } from '../../lib/constants';
-import { formatCurrency } from '../../lib/utils';
+import { Card } from '../../../web/components/ui/Card';
+import { Input } from '../../../web/components/ui/Input';
+import { VAT_RATE } from '../../../web/lib/constants';
+import { formatCurrency } from '../../../web/lib/utils';
 import { ShieldCheck } from 'lucide-react';
-import { RecentPosts } from '../../components/shared/RecentPosts';
-import { AdSpace } from '../../components/shared/AdSpace';
-import { MOCK_SITE_CONTENT } from '../../lib/sanity';
+import { RecentPosts } from '../../../web/components/shared/RecentPosts';
+import { AdSpace } from '../../../web/components/shared/AdSpace';
+import { MOCK_SITE_CONTENT } from '../../../web/lib/sanity';
 
 export const VatPage: React.FC<{ onNavigatePost: (slug: string) => void }> = ({ onNavigatePost }) => {
   const [amount, setAmount] = useState<string>('1000');

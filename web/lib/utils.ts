@@ -26,6 +26,7 @@ export const calculateIncomeTax = (annualSalary: number, age: number = 25) => {
     break;
   }
 
+  // Primary Rebate is available to all individuals
   tax -= TAX_REBATES_2026.primary;
   if (age >= 65) tax -= TAX_REBATES_2026.secondary;
   if (age >= 75) tax -= TAX_REBATES_2026.tertiary;

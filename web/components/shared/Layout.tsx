@@ -2,17 +2,16 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { Calculator, BookOpen, Sparkles, PhoneCall, Menu, X, Zap, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 interface LayoutProps {
   children: React.ReactNode;
   activeSite: 'home' | 'vat' | 'tax' | 'property' | 'twopot' | 'links';
   currentPage: string;
-  onOpenCallback?: () => void;
-  // Included to prevent type errors from legacy components still passing these
-  onSiteChange?: (site: string) => void;
+  onSiteChange?: (site: any) => void;
   onNavigate?: (path: string) => void;
+  onOpenCallback?: () => void;
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPage, onOpenCallback }) => {
@@ -132,6 +131,11 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPag
           </div>
         </div>
       </footer>
+
+      <style jsx>{`
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-marquee { display: inline-flex; animation: marquee 40s linear infinite; }
+      `}</style>
     </div>
   );
 };

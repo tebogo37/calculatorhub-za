@@ -1,0 +1,51 @@
+globalThis.__BUILD_MANIFEST = {
+  "pages": {
+    "/_app": [
+      "static/chunks/9ec66_next_dist_compiled_20a9afb7._.js",
+      "static/chunks/9ec66_next_dist_shared_lib_eab71b25._.js",
+      "static/chunks/9ec66_next_dist_client_d0348eaa._.js",
+      "static/chunks/9ec66_next_dist_e2fbb76b._.js",
+      "static/chunks/9ec66_next_app_edc33656.js",
+      "static/chunks/[next]_entry_page-loader_ts_f98d0aae._.js",
+      "static/chunks/9ec66_react-dom_7bb909a9._.js",
+      "static/chunks/9ec66_9b689956._.js",
+      "static/chunks/[root-of-the-server]__9831a85a._.js",
+      "static/chunks/Documents_calculatorhub-sa_web_pages__app_2da965e7._.js",
+      "static/chunks/turbopack-Documents_calculatorhub-sa_web_pages__app_4bb68c66._.js"
+    ],
+    "/_error": [
+      "static/chunks/9ec66_next_dist_compiled_20a9afb7._.js",
+      "static/chunks/9ec66_next_dist_shared_lib_0127a9f1._.js",
+      "static/chunks/9ec66_next_dist_client_d0348eaa._.js",
+      "static/chunks/9ec66_next_dist_3133fd35._.js",
+      "static/chunks/9ec66_next_error_37e546c6.js",
+      "static/chunks/[next]_entry_page-loader_ts_4f7620aa._.js",
+      "static/chunks/9ec66_react-dom_7bb909a9._.js",
+      "static/chunks/9ec66_9b689956._.js",
+      "static/chunks/[root-of-the-server]__30a175c1._.js",
+      "static/chunks/Documents_calculatorhub-sa_web_pages__error_2da965e7._.js",
+      "static/chunks/turbopack-Documents_calculatorhub-sa_web_pages__error_3c8278e0._.js"
+    ]
+  },
+  "devFiles": [],
+  "polyfillFiles": [
+    "static/chunks/9ec66_next_dist_build_polyfills_polyfill-nomodule.js"
+  ],
+  "lowPriorityFiles": [],
+  "rootMainFiles": [
+    "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_3c8c8dee._.js",
+    "static/chunks/9ec66_next_dist_compiled_react-dom_16b8ec3a._.js",
+    "static/chunks/9ec66_next_dist_compiled_react-server-dom-turbopack_61b9223b._.js",
+    "static/chunks/9ec66_next_dist_compiled_next-devtools_index_600df7c9.js",
+    "static/chunks/9ec66_next_dist_compiled_c16214e1._.js",
+    "static/chunks/9ec66_next_dist_client_f1ff77be._.js",
+    "static/chunks/9ec66_next_dist_21b2166d._.js",
+    "static/chunks/9ec66_@swc_helpers_cjs_1afdd5e0._.js",
+    "static/chunks/Documents_calculatorhub-sa_web_a0ff3932._.js",
+    "static/chunks/turbopack-Documents_calculatorhub-sa_web_b2a4b394._.js"
+  ]
+};
+globalThis.__BUILD_MANIFEST.lowPriorityFiles = [
+"/static/" + process.env.__NEXT_BUILD_ID + "/_buildManifest.js",
+"/static/" + process.env.__NEXT_BUILD_ID + "/_ssgManifest.js"
+];

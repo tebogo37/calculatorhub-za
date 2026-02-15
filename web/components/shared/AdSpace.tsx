@@ -1,4 +1,3 @@
-'use client';
 
 import React, { useEffect } from 'react';
 
@@ -23,12 +22,15 @@ export const AdSpace: React.FC<AdSpaceProps> = ({ slot, format = 'auto', classNa
     <div className={`my-8 w-full overflow-hidden flex flex-col items-center ${className}`}>
       {label && <span className="text-[10px] text-slate-300 uppercase tracking-widest mb-2">Advertisement</span>}
       <div className="bg-slate-50 border border-dashed border-slate-200 rounded-lg w-full min-h-[100px] flex items-center justify-center">
+        {/* Real AdSense Ins Tag */}
         <ins className="adsbygoogle"
              style={{ display: 'block' }}
              data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
              data-ad-slot={slot}
              data-ad-format={format}
              data-full-width-responsive="true"></ins>
+        
+        {/* Fallback Placeholder for Dev */}
         <p className="text-[10px] text-slate-400 font-mono">AD_SLOT_{slot}</p>
       </div>
     </div>

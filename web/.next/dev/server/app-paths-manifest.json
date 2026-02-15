@@ -1,0 +1,11 @@
+{
+  "/[slug]/page": "app/[slug]/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
+  "/refund-estimator/page": "app/refund-estimator/page.js",
+  "/resources/page": "app/resources/page.js",
+  "/tax-history/page": "app/tax-history/page.js",
+  "/tax/page": "app/tax/page.js",
+  "/twopot/page": "app/twopot/page.js",
+  "/vat/page": "app/vat/page.js"
+}

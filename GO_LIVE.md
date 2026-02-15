@@ -1,48 +1,49 @@
-# 🚀 CalculatorHub SA - Production Deployment Guide
+# 🚀 CalculatorHub SA - Go Live Guide
 
-Your application is now optimized for a Next.js 15 production environment. Follow these commands to go live.
+Follow these steps to deploy your professional financial utility hub.
 
-## 1. Local Production Build Test
-Ensure everything compiles perfectly without dev-mode overhead:
+## 1. Local Verification
+Before pushing, ensure your local build is production-ready:
 ```bash
+# Install dependencies
 npm install
+
+# Run build to catch any remaining type errors
 npm run build
 ```
 
-## 2. Version Control (Git)
-If you haven't pushed to a remote repository yet:
+## 2. Git Initialization
+If you haven't initialized Git yet, run these commands in your project root:
 ```bash
-# 1. Initialize Git
+# Initialize repository
 git init
 
-# 2. Add all files (Next.js automatically ignores .next via .gitignore)
+# Add all clean files
 git add .
 
-# 3. Commit the production-ready state
-git commit -m "feat: complete next.js 15 conversion for production"
+# Initial commit
+git commit -m "feat: initial production-ready next.js 15 build"
 
-# 4. Create a repo on GitHub/GitLab and link it
+# Link to your GitHub/GitLab (Replace URL)
 git remote add origin https://github.com/YOUR_USERNAME/calculatorhub-sa.git
 git branch -M main
 git push -u origin main
 ```
 
-## 3. Deployment to Vercel (Recommended)
-Vercel is the native home for Next.js and will handle your App Router logic best.
+## 3. Deployment (Vercel Recommended)
+The fastest way to go live with Next.js 15:
 
-1.  Log in to [Vercel](https://vercel.com).
-2.  Click **"Add New"** > **"Project"**.
-3.  Import your GitHub repository.
-4.  **Environment Variables**: Add your Sanity keys in the dashboard:
-    - `NEXT_PUBLIC_SANITY_PROJECT_ID`
-    - `NEXT_PUBLIC_SANITY_DATASET`
-5.  Click **Deploy**.
+1. **Connect GitHub**: Go to [vercel.com](https://vercel.com) and import your repository.
+2. **Set Environment Variables**: In the Vercel dashboard, add the following:
+   - `NEXT_PUBLIC_SANITY_PROJECT_ID`: (Your Sanity ID)
+   - `NEXT_PUBLIC_SANITY_DATASET`: `production`
+3. **Deploy**: Vercel will automatically run `npm run build` and serve your app.
 
-## 4. Troubleshooting "No Next.js version detected"
-If a platform fails to see Next.js, check:
-- **Root Directory**: Ensure Vercel is looking at the root where `package.json` lives.
-- **Build Command**: Ensure it is set to `next build`.
-- **Output Directory**: Ensure it is set to `.next`.
+## 4. Post-Deployment Checklist
+- [ ] Verify SSL is active (Automatic on Vercel).
+- [ ] Test the **Braai Index** share button on mobile.
+- [ ] Check that all calculator routes (`/tax`, `/vat`, etc.) load correctly.
+- [ ] Verify that Lead Magnet PDFs trigger correctly on email submission.
 
 ---
-*Senior Engineer Note: The legacy index.html/tsx files have been cleared to prevent build conflicts.*
+*Senior Engineer Note: Your path-based routing is now standard. No complex DNS middleware is required.*

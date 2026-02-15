@@ -1,21 +1,25 @@
 
 import { createClient } from '@sanity/client';
 
-// Use environment variables for production security. 
-// Locally, you can create a .env file with these keys.
+// 1. SANITY CLIENT CONFIGURATION
+// Use environment variables for production. 
+// If keys are missing, it will log a warning but still render the Mock Data.
 export const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'your-project-id',
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID , // Defaulting to your ID
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  useCdn: true,
+  useCdn: true, // true = fast (cached), false = fresh data
   apiVersion: '2024-03-01',
 });
 
+// 2. GROQ QUERIES (For when Sanity is live)
 export const queries = {
   postBySlug: `*[_type == "post" && slug.current == $slug][0] { ..., "slug": slug.current }`,
   recentPosts: `*[_type == "post" && targetSite == $site] | order(publishedAt desc)[0...5]`,
   siteContent: `*[_type == "siteContent" && siteKey == $site][0]`,
 };
 
+// 3. MOCK DATA (The Fallback Content)
+// This is what renders when Sanity is empty or not connected
 export const MOCK_SITE_CONTENT: Record<string, any> = {
   home: {
     heroTitle: "SA Financial Precision.",
@@ -128,3 +132,8 @@ export const MOCK_FAQS = [
   { q: "What is 'Fiscal Drag' or 'Bracket Creep'?", a: "Fiscal drag occurs when inflation pushes taxpayers into higher tax brackets, effectively increasing their tax burden even if their real income hasn't increased, because tax thresholds are not adjusted fully for inflation." },
   { q: "How has the VAT rate changed recently?", a: "The standard VAT rate in South Africa was increased from 14% to 15% effective from 1 April 2018, which was the first increase in VAT since 1993." }
 ];
+
+// 4. THE UNIFIED EXPORT
+// This aliases MOCK_SITE_CONTENT as SITE_CONTENT.
+// This ensures that when your pages import { SITE_CONTENT }, they get the data immediately.
+export const SITE_CONTENT = MOCK_SITE_CONTENT;

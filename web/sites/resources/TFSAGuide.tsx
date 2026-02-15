@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { Card } from '../../components/ui/Card';
-import { LeadMagnet } from '../../components/shared/LeadMagnet';
-import { ArrowLeft, CheckCircle2, ShieldAlert, Sparkles, FileText, Target } from 'lucide-react';
-import { AdSpace } from '../../components/shared/AdSpace';
+import { Card } from '../../../web/components/ui/Card';
+import { LeadMagnet } from '../../../web/components/shared/LeadMagnet';
+import { ArrowLeft, CheckCircle2, ShieldAlert, Target, Info, Sparkles, Download, FileText } from 'lucide-react';
+import { AdSpace } from '../../../web/components/shared/AdSpace';
 
 export const TFSAGuide: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const checklist = [
@@ -54,16 +54,17 @@ export const TFSAGuide: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               <Sparkles className="text-emerald-400" size={32} />
               <h4 className="text-xl font-bold">Pro Tip: Childrens TFSA</h4>
               <p className="text-sm text-slate-400 leading-relaxed">
-                Opening a TFSA for your child at birth allows them to hit their R500,000 lifetime limit by age 14.
+                Opening a TFSA for your child at birth allows them to hit their R500,000 lifetime limit by age 14. Due to compound growth, they could have a multi-million rand tax-free nest egg by age 25.
               </p>
            </div>
+
            <Card className="bg-orange-50 border-orange-100">
               <div className="flex gap-4">
                  <ShieldAlert className="text-orange-600 shrink-0" size={24} />
                  <div className="space-y-2">
                     <h4 className="font-bold text-orange-900">Avoid the "Bank Trap"</h4>
                     <p className="text-xs text-orange-800 leading-relaxed">
-                      Use it for <strong>ETFs</strong> where capital gains tax would otherwise be significant.
+                      Don't use a TFSA for a standard savings account (3-5% interest). Use it for <strong>Equity Index Funds (ETFs)</strong> where capital gains tax would otherwise be significant.
                     </p>
                  </div>
               </div>
@@ -71,11 +72,28 @@ export const TFSAGuide: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         </div>
       </div>
 
+      <div className="bg-white p-12 rounded-[3rem] border border-slate-100 shadow-sm space-y-6">
+         <h2 className="text-2xl font-black">2026 TFSA Strategy Summary</h2>
+         <p className="text-slate-600 leading-relaxed">
+           To ensure you hit the R36,000 limit without over-contributing, set up a monthly debit order of <strong>R3,000</strong>. If you start in March (the beginning of the tax year), you will hit the cap exactly by the end of February. Remember that withdrawing funds from your TFSA does not "open up" more lifetime allowance; once you contribute that portion of your R500k, it is used up forever.
+         </p>
+         <div className="flex flex-wrap gap-4 pt-4">
+            <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-full text-xs font-bold text-slate-500">
+               <FileText size={14} /> SARS Section 12T
+            </div>
+            <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-full text-xs font-bold text-slate-500">
+               <Target size={14} /> JSE Approved
+            </div>
+         </div>
+      </div>
+
       <LeadMagnet 
         title="Download TFSA 2026 PDF Cheat Sheet"
-        description="Get a high-resolution version of this checklist plus a list of providers."
+        description="Get a high-resolution version of this checklist plus a list of the Top 5 low-cost TFSA providers in SA."
         buttonText="Get PDF Guide"
       />
+      
+      <AdSpace slot="tfsa-bottom" />
     </div>
   );
 };

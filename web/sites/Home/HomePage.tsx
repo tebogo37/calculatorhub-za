@@ -3,9 +3,9 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Card } from '@/web/components/ui/Card';
+import { Card } from '../../components/ui/Card';
 import { TrendingUp, ArrowRight, Zap, Calculator, Home, BarChart3, Globe, Flame, Share2 } from 'lucide-react';
-import { MOCK_SITE_CONTENT } from '@/web/lib/sanity';
+import { MOCK_SITE_CONTENT } from '../../lib/sanity';
 
 export const HomePage: React.FC = () => {
   const content = MOCK_SITE_CONTENT.home;

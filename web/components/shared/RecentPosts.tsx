@@ -1,4 +1,3 @@
-'use client';
 
 import React, { useState, useEffect } from 'react';
 import { client, queries, MOCK_POSTS } from '../../lib/sanity';
@@ -23,10 +22,12 @@ export const RecentPosts: React.FC<{ site: string; onNavigate: (slug: string) =>
         if (data && data.length > 0) {
           setPosts(data);
         } else {
+          // Fallback to relevant mock data if API returns empty
           const filteredMocks = MOCK_POSTS.filter(p => p.targetSite === site);
           setPosts(filteredMocks);
         }
       } catch (err) {
+        console.warn("Sanity fetch failed, using mock data fallback.");
         const filteredMocks = MOCK_POSTS.filter(p => p.targetSite === site);
         setPosts(filteredMocks);
       } finally {
