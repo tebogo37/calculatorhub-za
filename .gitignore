@@ -13,15 +13,13 @@ dist
 dist-ssr
 *.local
 node_modules
-*/node_modules
+node_modules
 .next
-*/.next
-.sanity
-*/.sanity
-dist
-*/dist
-.env
 .env.local
+studio/dist
+studio/node_modules
+web/node_modules
+web/.next
 .DS_Store
 
 # Editor directories and files
