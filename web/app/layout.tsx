@@ -3,7 +3,8 @@ import React from 'react';
 import type { Metadata } from 'next';
 import './globals.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
-
+import { Analytics } from '@vercel/analytics/next';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: 'CalculatorHub SA - Tax, VAT & Finance 2026',
@@ -28,6 +29,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="antialiased bg-slate-50 text-slate-900 font-inter">
         {children}
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
+          
+<Analytics />
+
+<Script
+  src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+  strategy="afterInteractive"
+/>
+<Script id="ga-manual" strategy="afterInteractive">
+  {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+    console.log('GA4 initialized manually – check network tab');
+  `}
+</Script>
 
       </body>
     </html>
