@@ -13,4 +13,9 @@
   <url><loc>https://vat.calculatorhub.co.za/vat-registration-guide-2026</loc></url>
   <url><loc>https://tax.calculatorhub.co.za/understanding-tax-brackets-2026</loc></url>
   <url><loc>https://property.calculatorhub.co.za/hidden-costs-home-buying-sa</loc></url>
+
+  <!-- SA Essentials -->
+<url><loc>https://calculatorhub.co.za/essentials</loc><priority>0.9</priority></url>
+<url><loc>https://calculatorhub.co.za/essentials/fuel</loc><priority>0.9</priority></url>
+<url><loc>https://calculatorhub.co.za/essentials/groceries</loc><priority>0.8</priority></url>
 </urlset>
