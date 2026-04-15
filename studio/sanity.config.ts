@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'calculatorhub',
 
-  projectId: 'process.env.NEXT_PUBLIC_SANITY_PROJECT_ID',
+  projectId: 'pvj13q77',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],

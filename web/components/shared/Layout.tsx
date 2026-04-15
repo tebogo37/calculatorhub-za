@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 interface LayoutProps {
   children: React.ReactNode;
-  activeSite: 'home' | 'vat' | 'tax' | 'property' | 'twopot' | 'links';
+  activeSite: 'home' | 'vat' | 'tax' | 'property' | 'twopot' | 'links' | 'essentials';
   currentPage: string;
   onSiteChange?: (site: any) => void;
   onNavigate?: (path: string) => void;
@@ -39,7 +39,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPag
             <div className="hidden lg:flex items-center gap-6">
               <Link href="/vat" className={`text-sm font-bold transition-colors ${activeSite === 'vat' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>VAT</Link>
               <Link href="/tax" className={`text-sm font-bold transition-colors ${activeSite === 'tax' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>Income Tax</Link>
-              <Link href="/property" className={`text-sm font-bold transition-colors ${activeSite === 'property' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>Property</Link>
+                <Link href="/essentials" className={`text-sm font-bold transition-colors ${activeSite === 'essentials' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>Essentials</Link>
+              <Link href="/essentials/fuel" className={`text-sm font-bold transition-colors ${activeSite === 'property' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>Fuel Calculator</Link>
               <Link href="/twopot" className={`text-sm font-bold transition-colors ${activeSite === 'twopot' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'} flex items-center gap-1.5`}>
                  <Zap size={14} className="text-orange-400" /> Two-Pot
               </Link>
@@ -50,6 +51,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPag
               <Link href="/resources" className={`text-sm font-bold flex items-center gap-2 transition-colors ${currentPage === 'resources' ? 'text-emerald-400' : 'text-slate-400 hover:text-white'}`}>
                 <BookOpen size={16} /> Resources
               </Link>
+            
+              
             </div>
 
             <div className="flex items-center gap-4">
@@ -79,9 +82,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPag
           <div className="lg:hidden bg-slate-900 border-b border-slate-800 p-6 space-y-4 animate-in slide-in-from-top duration-300 shadow-2xl">
             <Link href="/vat" className="block w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-white">VAT Hub</Link>
             <Link href="/tax" className="block w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-white">Income Tax</Link>
-            <Link href="/property" className="block w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-white">Property Duty</Link>
+            <Link href="/essentials/fuel" className="block w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-white">Fuel Calculator</Link>
             <Link href="/twopot" className="block w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-orange-400">Two-Pot System</Link>
             <Link href="/refund-estimator" className="block w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-emerald-400">Refund Estimator</Link>
+            <Link href="/essentials" className="block w-full text-left py-4 text-lg font-bold border-b border-slate-800 text-emerald-300">SA Essentials </Link>
             <button onClick={() => { onOpenCallback?.(); setIsMenuOpen(false); }} className="w-full py-5 bg-emerald-500 text-slate-900 font-black rounded-2xl text-center">Compliance Help</button>
           </div>
         )}
@@ -126,6 +130,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPag
                 <li><Link href="/refund-estimator" className="hover:text-emerald-400">Refund Estimator</Link></li>
                 <li><Link href="/resources" className="hover:text-emerald-400">Education Center</Link></li>
                 <li><Link href="/links" className="hover:text-emerald-400 flex items-center justify-center md:justify-start gap-1">Financial Directory <ArrowRight size={12} /></Link></li>
+                <li><Link href="/essentials/fuel" className="hover:text-emerald-400">Fuel Calculator</Link></li>
+                <li><Link href="/essentials/groceries" className="hover:text-emerald-400">Grocery Basket</Link></li>
               </ul>
             </div>
           </div>
