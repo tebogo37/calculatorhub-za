@@ -80,6 +80,16 @@ export const HomePage: React.FC = () => {
            ))}
         </section>
 
+        
+        <section className="bg-white rounded-[4rem] border border-slate-100 p-12 md:p-20 shadow-2xl relative overflow-hidden group">
+           <div className="relative z-10 space-y-12">
+              <div className="flex flex-col md:flex-row justify-between items-end gap-6">
+                    <LiveRatesDashboard />
+            
+            
+              </div>
+              </div>
+           </section>
         <section className="bg-white rounded-[4rem] border border-slate-100 p-12 md:p-20 shadow-2xl relative overflow-hidden group">
            <div className="relative z-10 space-y-12">
               <div className="flex flex-col md:flex-row justify-between items-end gap-6">
