@@ -4,7 +4,8 @@
 import React, { useState } from 'react';
 import { Calculator, BookOpen, Sparkles, PhoneCall, Menu, X, Zap, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-
+// Add import at top
+import { LiveMarquee } from './LiveMarquee'
 interface LayoutProps {
   children: React.ReactNode;
   activeSite: 'home' | 'vat' | 'tax' | 'property' | 'twopot' | 'links' | 'essentials';
@@ -17,12 +18,7 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPage, onOpenCallback }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const metrics = [
-    { label: 'ZAR / USD', value: 'R18.42', change: '-0.12%', positive: true },
-    { label: 'BRENT CRUDE', value: '$82.40', change: '+1.45%', positive: false },
-    { label: 'JSE TOP 40', value: '74,210', change: '+0.88%', positive: true },
-    { label: 'REPO RATE', value: '8.25%', change: '0.00%', positive: true },
-  ];
+
 
   return (
     <div className="min-h-screen flex flex-col font-inter selection:bg-emerald-100 selection:text-emerald-900">
@@ -67,15 +63,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPag
         </nav>
 
         <div className="bg-slate-900 border-b border-slate-800 py-2.5 overflow-hidden flex items-center relative">
-           <div className="flex animate-marquee whitespace-nowrap gap-12 flex-grow">
-              {[...metrics, ...metrics, ...metrics].map((m, i) => (
-                <div key={i} className="flex items-center gap-3 px-6 border-r border-slate-800 last:border-none">
-                   <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{m.label}</span>
-                   <span className="text-sm font-bold text-white">{m.value}</span>
-                   <span className={`text-[10px] font-bold ${m.positive ? 'text-emerald-400' : 'text-red-400'}`}>{m.change}</span>
-                </div>
-              ))}
-           </div>
+           <LiveMarquee />
         </div>
 
         {isMenuOpen && (
