@@ -35,7 +35,7 @@ export const HomePage: React.FC = () => {
       <section className="relative w-full min-h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0 bg-slate-900">
            <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-900/30 opacity-50"></div>
-            <LiveRatesDashboard />
+        
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center space-y-8 py-20">
@@ -83,6 +83,7 @@ export const HomePage: React.FC = () => {
         <section className="bg-white rounded-[4rem] border border-slate-100 p-12 md:p-20 shadow-2xl relative overflow-hidden group">
            <div className="relative z-10 space-y-12">
               <div className="flex flex-col md:flex-row justify-between items-end gap-6">
+                    <LiveRatesDashboard />
                  <div className="space-y-4 text-center md:text-left">
                     <h2 className="text-5xl md:text-6xl font-black text-slate-900 flex items-center justify-center md:justify-start gap-4">
                       The Braai Index <Flame className="text-orange-500" />
