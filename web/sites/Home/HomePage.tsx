@@ -83,7 +83,7 @@ export const HomePage: React.FC = () => {
 
 
 
-             <section className="relative w-full min-h-[60vh] flex items-center justify-center overflow-hidden">
+             <section className="relative w-full min-h-[30vh] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0 bg-slate-900">
            <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-900/30 opacity-50">
            <div className="relative z-10 max-w-7xl mx-auto px-4 text-center space-y-8 py-20">
