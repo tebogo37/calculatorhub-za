@@ -12,15 +12,14 @@ export async function POST(request: Request) {
 
     const data = await request.json();
 
-    // Ensure directory exists
-    const publicDir = path.join(process.cwd(), 'public', 'data');
-    await mkdir(publicDir, { recursive: true });
-
-    const filePath = path.join(publicDir, 'live-rates.json');
+    // Use /tmp folder (writable on Vercel)
+    const tmpDir = '/tmp';
+    const filePath = path.join(tmpDir, 'live-rates.json');
     
+    await mkdir(tmpDir, { recursive: true });
     await writeFile(filePath, JSON.stringify(data, null, 2));
 
-    console.log(`✅ Live data saved successfully at ${data.timestamp}`);
+    console.log(`✅ Live data saved to /tmp at ${data.timestamp}`);
 
     return NextResponse.json({ 
       success: true, 
