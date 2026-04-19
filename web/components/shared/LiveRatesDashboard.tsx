@@ -59,7 +59,7 @@ export const LiveRatesDashboard: React.FC<{ compact?: boolean }> = ({ compact = 
       {/* ── Header ── */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-6xl md:text-8xl font-black text-white tracking-tighter leading-none">
+          <h2 className="text-4xl md:text-5xl font-black text-white tracking-tighter leading-none">
             Live SA Market Data
           </h2>
           {lastFetched && (
