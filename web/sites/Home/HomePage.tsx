@@ -84,6 +84,7 @@ export const HomePage: React.FC = () => {
       <section className="relative w-full min-h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0 bg-slate-900">
           <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-900/30 opacity-50" />
+         
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center space-y-8 py-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full text-xs font-black uppercase tracking-widest">
@@ -149,6 +150,7 @@ export const HomePage: React.FC = () => {
         {/* ── SA Basket Index (replaces Braai Index) ── */}
         <section className="bg-white rounded-[4rem] border border-slate-100 p-12 md:p-20 shadow-2xl relative overflow-hidden">
           <div className="relative z-10 space-y-12">
+         
             <div className="flex flex-col md:flex-row justify-between items-end gap-6">
               <div className="space-y-3 text-center md:text-left">
                 <h2 className="text-5xl md:text-6xl font-black text-slate-900">
@@ -258,6 +260,7 @@ export const HomePage: React.FC = () => {
 
         {/* ── Bottom value props ── */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center py-20 border-t border-slate-100">
+        
           <div className="space-y-4">
             <Globe className="mx-auto text-emerald-500" size={48} />
             <p className="font-black text-2xl text-slate-800 tracking-tight">Real-Time Policy Sync</p>
