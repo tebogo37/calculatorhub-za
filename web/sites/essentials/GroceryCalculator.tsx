@@ -1,3 +1,5 @@
+//path web/sites/essentials/grocerycalculator
+
 'use client';
 
 import React, { useState } from 'react';
