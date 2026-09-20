@@ -1,9 +1,9 @@
 // web/lib/sanity.ts
 import { createClient } from '@sanity/client';
 
-// ─── 1. CLIENT ───────────────────────────────────────────────────────────────
+// ─── CLIENT ───────────────────────────────────────────────────────────────────
 export const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '',
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'pvj13q77',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   useCdn: true,
   apiVersion: '2024-03-01',
@@ -13,71 +13,127 @@ const isSanityConfigured =
   !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID &&
   process.env.NEXT_PUBLIC_SANITY_PROJECT_ID !== 'placeholder_id';
 
-// ─── 2. GROQ QUERIES ─────────────────────────────────────────────────────────
+// ─── GROQ QUERIES ─────────────────────────────────────────────────────────────
 export const queries = {
-  postBySlug: `*[_type == "post" && slug.current == $slug][0] { ..., "slug": slug.current }`,
-  recentPosts: `*[_type == "post" && targetSite == $site] | order(publishedAt desc)[0...5]`,
+  // Existing
+  postBySlug: `*[_type == "post" && slug.current == $slug][0]{
+    ...,
+    "slug": slug.current,
+    mainImage
+  }`,
+  recentPosts: `*[_type == "post" && targetSite == $site] | order(publishedAt desc)[0...6]{
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+    targetSite,
+    mainImage
+  }`,
   siteContent: `*[_type == "siteContent" && siteKey == $siteKey][0]`,
   essentials: `*[_type == "essentials" && category == $category][0]`,
-  allEssentials: `*[_type == "essentials"] | order(category asc)`,
+
+  // New – Tax Guides
+  allTaxGuides: `*[_type == "taxGuide"] | order(title asc){
+    title,
+    "slug": slug.current,
+    description,
+    icon,
+    checklistItems,
+    pdfUrl,
+    seoTitle,
+    seoDescription
+  }`,
+  taxGuideBySlug: `*[_type == "taxGuide" && slug.current == $slug][0]{
+    ...,
+    "slug": slug.current
+  }`,
+
+  // New – All Posts (for resources / blog page)
+  allPosts: `*[_type == "post"] | order(publishedAt desc){
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+    targetSite,
+    mainImage,
+    seoTitle
+  }`,
 };
 
-// ─── 3. FETCH HELPERS ────────────────────────────────────────────────────────
-/**
- * Fetch Sanity site content for a given page key, with mock data fallback.
- * Usage: const content = await getSiteContent('vat');
- */
+// ─── FETCH HELPERS ────────────────────────────────────────────────────────────
+
 export async function getSiteContent(siteKey: string) {
-  if (!isSanityConfigured) return MOCK_SITE_CONTENT[siteKey] ?? null;
+  if (!isSanityConfigured) return null;
   try {
-    const data = await client.fetch(queries.siteContent, { siteKey });
-    return data ?? MOCK_SITE_CONTENT[siteKey] ?? null;
+    return await client.fetch(queries.siteContent, { siteKey });
   } catch {
-    return MOCK_SITE_CONTENT[siteKey] ?? null;
+    return null;
   }
 }
 
-/**
- * Fetch SA Essentials data from Sanity with mock fallback.
- */
 export async function getEssentials(category: string) {
-  if (!isSanityConfigured) return MOCK_ESSENTIALS[category] ?? null;
+  if (!isSanityConfigured) return null;
   try {
-    const data = await client.fetch(queries.essentials, { category });
-    return data ?? MOCK_ESSENTIALS[category] ?? null;
+    return await client.fetch(queries.essentials, { category });
   } catch {
-    return MOCK_ESSENTIALS[category] ?? null;
+    return null;
   }
 }
 
-// ─── 4. MOCK DATA ─────────────────────────────────────────────────────────────
-export const MOCK_SITE_CONTENT: Record<string, any> = {
+export async function getRecentPosts(site: string) {
+  if (!isSanityConfigured) return [];
+  try {
+    return await client.fetch(queries.recentPosts, { site });
+  } catch {
+    return [];
+  }
+}
+
+export async function getAllTaxGuides() {
+  if (!isSanityConfigured) return [];
+  try {
+    return await client.fetch(queries.allTaxGuides);
+  } catch {
+    return [];
+  }
+}
+
+export async function getTaxGuideBySlug(slug: string) {
+  if (!isSanityConfigured) return null;
+  try {
+    return await client.fetch(queries.taxGuideBySlug, { slug });
+  } catch {
+    return null;
+  }
+}
+
+export async function getAllPosts() {
+  if (!isSanityConfigured) return [];
+  try {
+    return await client.fetch(queries.allPosts);
+  } catch {
+    return [];
+  }
+}
+
+export async function getPostBySlug(slug: string) {
+  if (!isSanityConfigured) return null;
+  try {
+    return await client.fetch(queries.postBySlug, { slug });
+  } catch {
+    return null;
+  }
+}
+
+export const MOCK_SITE_CONTENT = {
   home: {
     heroTitle: 'SA Financial Precision.',
-    heroSubtitle:
-      'The unified engine for South African Tax, VAT, and Property Duty. Built for the 2026 Budget cycle.',
-  },
-  vat: {
-    title: 'SA VAT Compliance Hub 2026',
-    summary: 'Standard 15% VAT calculations for South African vendors.',
-    deepFooter:
-      'VAT is the cornerstone of the SA revenue system. Mandatory for turnovers exceeding R1 million.',
-    faqs: [
-      {
-        q: 'What is the VAT registration threshold for 2026?',
-        a: 'Mandatory registration is required if your taxable supplies exceed R1 million in a 12-month period.',
-      },
-      {
-        q: 'Can I claim VAT back on a car purchase?',
-        a: "Generally, VAT cannot be claimed on passenger vehicles unless the business is a car dealer or rental company.",
-      },
-    ],
+    heroSubtitle: 'The unified engine for South African Tax, VAT, and Property Duty. Built for the 2026 Budget cycle.',
   },
   tax: {
     title: 'Income Tax Master Calculator 2026',
     summary: 'Accurate PAYE modeling for the latest SARS progressive tax brackets.',
-    deepFooter:
-      'Personal Income Tax accounts for 38% of SA revenue. Maximize your Retirement Annuity deductions.',
+    deepFooter: 'Personal Income Tax accounts for 38% of SA revenue. Maximize your Retirement Annuity deductions.',
     faqs: [
       {
         q: 'What are the 2026 tax brackets?',
@@ -89,6 +145,21 @@ export const MOCK_SITE_CONTENT: Record<string, any> = {
       },
     ],
   },
+  vat: {
+    title: 'SA VAT Compliance Hub 2026',
+    summary: 'Standard 15% VAT calculations for South African vendors.',
+    deepFooter: 'VAT is the cornerstone of the SA revenue system. Mandatory for turnovers exceeding R1 million.',
+    faqs: [
+      {
+        q: 'What is the VAT registration threshold for 2026?',
+        a: 'Mandatory registration is required if your taxable supplies exceed R1 million in a 12-month period.',
+      },
+      {
+        q: 'Can I claim VAT back on a car purchase?',
+        a: 'Generally, VAT cannot be claimed on passenger vehicles unless the business is a car dealer or rental company.',
+      },
+    ],
+  },
   property: {
     title: 'Property Transfer Duty Estimator 2026',
     summary: 'SARS thresholds for property acquisition tax.',
@@ -96,11 +167,11 @@ export const MOCK_SITE_CONTENT: Record<string, any> = {
     faqs: [
       {
         q: 'Do I pay Transfer Duty on new developments?',
-        a: "No, you usually pay 15% VAT instead of Transfer Duty when buying directly from a developer.",
+        a: 'No, you usually pay 15% VAT instead of Transfer Duty when buying directly from a developer.',
       },
       {
         q: 'Is the solar credit available for home buyers?',
-        a: "Yes, if you install panels after purchase, you can claim 25% of the cost back from SARS (max R15,000).",
+        a: 'Yes, if you install panels after purchase, you can claim 25% of the cost back from SARS (max R15,000).',
       },
     ],
   },
@@ -121,7 +192,7 @@ export const MOCK_SITE_CONTENT: Record<string, any> = {
   },
 };
 
-// ─── 5. SA ESSENTIALS MOCK DATA ───────────────────────────────────────────────
+// ─── SA ESSENTIALS MOCK DATA ──────────────────────────────────────────────────
 export const MOCK_ESSENTIALS: Record<string, any> = {
   fuel: {
     category: 'fuel',
@@ -129,12 +200,6 @@ export const MOCK_ESSENTIALS: Record<string, any> = {
     summary:
       'Current inland petrol prices updated monthly by the DMRE. Calculate tank fill costs and road trip fuel spend.',
     lastUpdated: '2026-04-02T00:00:00Z',
-    fuelPrices: {
-      unleaded95: 21.84,
-      unleaded93: 21.59,
-      diesel50ppm: 19.78,
-      effectiveDate: '2 April 2026',
-    },
     commonCarTanks: [
       { make: 'VW Polo Vivo', tankLitres: 45, avgConsumption: 6.8 },
       { make: 'Toyota Corolla Quest', tankLitres: 50, avgConsumption: 7.2 },
@@ -159,15 +224,15 @@ export const MOCK_ESSENTIALS: Record<string, any> = {
     faqs: [
       {
         q: 'When are fuel prices updated in South Africa?',
-        a: 'The DMRE (Department of Mineral Resources and Energy) adjusts fuel prices on the first Wednesday of each month.',
+        a: 'The DMRE adjusts fuel prices on the first Wednesday of each month.',
       },
       {
         q: 'What is the difference between inland and coastal prices?',
-        a: 'Inland prices (Gauteng, Limpopo, etc.) are slightly higher than coastal prices due to transport levies to get fuel to inland provinces.',
+        a: 'Inland prices are slightly higher due to transport levies to inland provinces.',
       },
       {
         q: 'Does the fuel price include all levies?',
-        a: 'Yes. The pump price includes the General Fuel Levy (GFL), Road Accident Fund (RAF) levy, and applicable taxes.',
+        a: 'Yes. The pump price includes the General Fuel Levy, Road Accident Fund levy, and applicable taxes.',
       },
     ],
   },
@@ -207,119 +272,4 @@ export const MOCK_ESSENTIALS: Record<string, any> = {
       },
     ],
   },
-
-  travel: {
-    category: 'travel',
-    title: 'SA Road Trip Cost Calculator',
-    summary:
-      'Calculate the total cost of your South African road trip including fuel, tolls, and accommodation estimates.',
-    lastUpdated: '2026-04-01T00:00:00Z',
-    popularRoutes: [
-      { from: 'Johannesburg', to: 'Cape Town', distanceKm: 1401, tollsZar: 480 },
-      { from: 'Johannesburg', to: 'Durban', distanceKm: 588, tollsZar: 220 },
-      { from: 'Johannesburg', to: 'Pretoria', distanceKm: 58, tollsZar: 35 },
-      { from: 'Cape Town', to: 'George', distanceKm: 438, tollsZar: 0 },
-      { from: 'Johannesburg', to: "Port Elizabeth (Gqeberha)", distanceKm: 1062, tollsZar: 310 },
-      { from: 'Durban', to: 'Cape Town', distanceKm: 1753, tollsZar: 290 },
-      { from: 'Johannesburg', to: 'Bloemfontein', distanceKm: 396, tollsZar: 120 },
-      { from: 'Johannesburg', to: 'Nelspruit (Mbombela)', distanceKm: 358, tollsZar: 95 },
-      { from: 'Cape Town', to: 'Hermanus', distanceKm: 122, tollsZar: 0 },
-      { from: 'Johannesburg', to: 'Sun City', distanceKm: 185, tollsZar: 55 },
-    ],
-    faqs: [
-      {
-        q: 'Are e-toll costs included?',
-        a: 'The Gauteng e-toll system was officially scrapped in 2023. Our toll estimates cover national road tolls (SANRAL) only.',
-      },
-      {
-        q: 'How accurate are the distance figures?',
-        a: 'Distances reflect the most direct major highway route. Actual distance may vary depending on your specific start/end point and preferred route.',
-      },
-    ],
-  },
 };
-
-// ─── 6. LEGACY EXPORTS (keep existing pages working) ─────────────────────────
-export const MOCK_FINANCIAL_LINKS = [
-  { title: 'SARS eFiling', url: 'https://www.sars.gov.za', category: 'Government' },
-  { title: 'National Treasury', url: 'https://www.treasury.gov.za', category: 'Policy' },
-  {
-    title: 'Financial Sector Conduct Authority (FSCA)',
-    url: 'https://www.fsca.co.za',
-    category: 'Regulation',
-  },
-  { title: 'JSE Limited', url: 'https://www.jse.co.za', category: 'Markets' },
-  { title: 'Reserve Bank (SARB)', url: 'https://www.resbank.co.za', category: 'Monetary' },
-  { title: 'Department of Finance', url: 'http://www.finance.gov.za', category: 'Government' },
-];
-
-export const MOCK_GUIDES = [
-  {
-    title: '2026 Personal Tax Pocket Guide',
-    slug: 'tax-pocket-guide',
-    description: 'Downloadable PDF including all 2026 Tax Brackets and Medical Scheme Credits.',
-    checklist: ['SARS Tax Table 2026', 'Medical Credit Rates', 'Travel Allowance Rules'],
-  },
-  {
-    title: 'Property Cost Checklist',
-    slug: 'property-checklist',
-    description: 'Avoid R50k+ in hidden fees when buying property.',
-    checklist: ['Transfer Duty Scale', 'Conveyancing Fees', 'Bond Registration Estimates'],
-  },
-  {
-    title: 'Retirement Annuity Pro Tips',
-    slug: 'ra-pro-tips',
-    description: 'Master the 27.5% deduction rule for Retirement Annuities.',
-    checklist: ['Section 11F Deduction Limits', 'Retirement Annuity vs TFSA', 'Tax Refund Maximization'],
-  },
-  {
-    title: 'TFSA Master Checklist',
-    slug: 'tfsa-guide',
-    description: 'Maximize your R36,000 annual allowance.',
-    checklist: ['R36,000 Annual Limit', '40% Penalty Clause', 'Compounding Visualization'],
-  },
-];
-
-export const MOCK_POSTS = [
-  {
-    title: 'Two-Pot: Is a Withdrawal Worth the Tax?',
-    slug: 'two-pot-tax-worth-it',
-    targetSite: 'twopot',
-    publishedAt: '2026-02-20T08:00:00Z',
-    excerpt: 'We calculate the high cost of early retirement pot access.',
-    body: [{ _type: 'block', children: [{ text: 'The tax on two-pot withdrawals is based on your marginal rate...' }] }],
-  },
-  {
-    title: '5 Things to Know Before Withdrawing from your Savings Pot',
-    slug: 'savings-pot-essentials',
-    targetSite: 'twopot',
-    publishedAt: '2026-02-19T08:00:00Z',
-    excerpt: 'Avoid the R500 admin fee and 45% tax trap.',
-    body: [{ _type: 'block', children: [{ text: 'SARS takes a significant cut of two-pot withdrawals...' }] }],
-  },
-  {
-    title: 'SARS Budget 2026: Key Changes',
-    slug: 'sars-budget-2026-changes',
-    targetSite: 'tax',
-    publishedAt: '2026-02-18T08:00:00Z',
-    excerpt: 'The 2026 budget speech has implications for middle-income earners.',
-    body: [{ _type: 'block', children: [{ text: 'Detailed budget analysis...' }] }],
-  },
-];
-
-export const MOCK_FAQS = [
-  {
-    q: 'Why did the top tax rate increase in 2017?',
-    a: 'The 2017 Budget introduced a new top marginal income tax bracket of 45% for individuals with taxable income above R1.5 million to increase revenue.',
-  },
-  {
-    q: "What is 'Fiscal Drag' or 'Bracket Creep'?",
-    a: "Fiscal drag occurs when inflation pushes taxpayers into higher tax brackets, effectively increasing their tax burden even if their real income hasn't increased, because tax thresholds are not adjusted fully for inflation.",
-  },
-  {
-    q: 'How has the VAT rate changed recently?',
-    a: 'The standard VAT rate in South Africa was increased from 14% to 15% effective from 1 April 2018, which was the first increase in VAT since 1993.',
-  },
-];
-
-export const SITE_CONTENT = MOCK_SITE_CONTENT;

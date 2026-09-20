@@ -1,4 +1,10 @@
+# CalculatorHub SA
 User-agent: *
 Allow: /
 
-Sitemap: https://calculatorhub.co.za/sitemap.xml
+# Do not index API or internal endpoints
+Disallow: /api/
+Disallow: /test-sanity
+
+# Prefer HTTPS + www
+Sitemap: https://www.calculatorhub.co.za/sitemap.xml

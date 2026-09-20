@@ -1,13 +1,12 @@
-'use client';
-import { useRouter } from 'next/navigation';
 import { Layout } from '../../../components/shared/Layout';
 import { GroceryCalculator } from '../../../sites/essentials/GroceryCalculator';
+import { getSiteContent } from '../../../lib/sanity';
 
-export default function GroceriesRoute() {
-  const router = useRouter();
+export default async function GroceriesRoute() {
+  const siteContent = await getSiteContent('groceries');
   return (
-    <Layout activeSite="home" currentPage="essentials" onNavigate={(p) => router.push(p)}>
-      <GroceryCalculator />
+    <Layout activeSite="home" currentPage="essentials">
+      <GroceryCalculator siteContent={siteContent} />
     </Layout>
   );
 }

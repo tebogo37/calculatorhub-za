@@ -7,11 +7,27 @@ import { Analytics } from '@vercel/analytics/next';
 import Script from 'next/script';
 
 export const metadata: Metadata = {
-  title: 'CalculatorHub SA - Tax, VAT & Finance 2026',
-  description: 'The premium South African utility engine for VAT, Income Tax, and Property Duty.',
+  metadataBase: new URL('https://www.calculatorhub.co.za'),
+  title: {
+    default: 'CalculatorHub SA | Tax, VAT, Property & Essentials',
+    template: '%s | CalculatorHub SA',
+  },
+  description:
+    'Free South African calculators for income tax, VAT, transfer duty, Two-Pot, fuel and groceries — 2026 Budget cycle.',
   icons: {
     icon: '/icon', // Points to the icon.tsx we created
   },
+  openGraph: {
+    type: 'website',
+    locale: 'en_ZA',
+    url: 'https://www.calculatorhub.co.za',
+    siteName: 'CalculatorHub SA',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

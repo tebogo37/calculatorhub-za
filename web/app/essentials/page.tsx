@@ -1,13 +1,13 @@
-'use client';
-import { useRouter } from 'next/navigation';
 import { Layout } from '../../components/shared/Layout';
 import { EssentialsHub } from '../../sites/essentials/EssentialsHub';
+import { getSiteContent } from '../../lib/sanity';
 
-export default function EssentialsRoute() {
-  const router = useRouter();
+export default async function EssentialsRoute() {
+  const siteContent = await getSiteContent('essentials');
+
   return (
-    <Layout activeSite="home" currentPage="essentials" onNavigate={(p) => router.push(p)}>
-      <EssentialsHub />
+    <Layout activeSite="home" currentPage="essentials">
+      <EssentialsHub siteContent={siteContent} />
     </Layout>
   );
 }

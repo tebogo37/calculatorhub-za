@@ -1,21 +1,16 @@
-
-'use client';
-
-import { useRouter } from 'next/navigation';
 import { Layout } from '../../components/shared/Layout';
 import { VatPage } from '../../sites/vat/VatPage';
+import { getRecentPosts, getSiteContent } from '../../lib/sanity';
 
-export default function VatRoute() {
-  const router = useRouter();
-  
+export default async function VatRoute() {
+  const [recentPosts, siteContent] = await Promise.all([
+    getRecentPosts('vat'),
+    getSiteContent('vat'),
+  ]);
+
   return (
-    <Layout 
-      activeSite="vat" 
-      currentPage="tools"
-      onNavigate={(path) => router.push(path)}
-      onSiteChange={(site) => router.push(`/${site}`)}
-    >
-      <VatPage onNavigatePost={(slug) => router.push(`/${slug}`)} />
+    <Layout activeSite="vat" currentPage="tools">
+      <VatPage recentPosts={recentPosts} siteContent={siteContent} />
     </Layout>
   );
 }

@@ -1,13 +1,12 @@
-//path web/sites/essentials/grocerycalculator
-
 'use client';
 
 import React, { useState } from 'react';
+import { PortableText } from '@portabletext/react';
 import { formatCurrency } from '../../lib/utils';
-import { ShoppingCart, Plus, Minus, Trash2, TrendingUp, Info } from 'lucide-react';
+import { ShoppingCart, Plus, Minus, Trash2, Info } from 'lucide-react';
 import { MOCK_ESSENTIALS } from '../../lib/sanity';
 
-const data = MOCK_ESSENTIALS.groceries;
+const SITE_URL = 'https://www.calculatorhub.co.za';
 
 interface BasketItem {
   name: string;
@@ -17,11 +16,31 @@ interface BasketItem {
   qty: number;
 }
 
-export const GroceryCalculator: React.FC = () => {
+interface GroceryCalculatorProps {
+  siteContent?: any;
+}
+
+export const GroceryCalculator: React.FC<GroceryCalculatorProps> = ({ siteContent }) => {
+  const data = MOCK_ESSENTIALS.groceries;
+
+  const summary = siteContent?.summary || data.summary;
+  const faqs = (siteContent?.faqs || data.faqs || []).map((f: any) => ({
+    q: f.q || f.question,
+    a: f.a || f.answer,
+  }));
+
+  const deep = siteContent?.deepContent;
+  const hasPortableDeep = Array.isArray(deep) && deep.length > 0;
+  const hasStringDeep = typeof deep === 'string' && deep.trim().length > 0;
+
+  const pageTitle =
+    siteContent?.seoTitle || siteContent?.title || 'SA Grocery Basket Calculator';
+  const pageDescription = siteContent?.metaDescription || summary;
+
   const [basket, setBasket] = useState<Record<string, BasketItem>>({});
   const [budgetStr, setBudgetStr] = useState('2000');
 
-  const addItem = (item: typeof data.groceryItems[0]) => {
+  const addItem = (item: (typeof data.groceryItems)[0]) => {
     setBasket((prev) => ({
       ...prev,
       [item.name]: prev[item.name]
@@ -58,9 +77,67 @@ export const GroceryCalculator: React.FC = () => {
   const remaining = budget - total;
   const percentUsed = budget > 0 ? Math.min((total / budget) * 100, 100) : 0;
 
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'CalculatorHub SA',
+    url: SITE_URL,
+    logo: `${SITE_URL}/favicon.ico`,
+    areaServed: { '@type': 'Country', name: 'South Africa' },
+  };
+
+  const webPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: pageTitle,
+    description: pageDescription,
+    url: `${SITE_URL}/essentials/groceries`,
+    isPartOf: { '@type': 'WebSite', name: 'CalculatorHub SA', url: SITE_URL },
+  };
+
+  const toolSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'SA Grocery Basket Calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Web',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'ZAR' },
+    description: pageDescription,
+    url: `${SITE_URL}/essentials/groceries`,
+    provider: { '@type': 'Organization', name: 'CalculatorHub SA', url: SITE_URL },
+  };
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f: any) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+
   return (
     <div className="max-w-6xl mx-auto space-y-10 animate-in fade-in duration-700 py-12 px-4">
-      {/* ── Header ── */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(toolSchema) }}
+      />
+      {faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+
       <div className="space-y-4">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-black uppercase tracking-widest">
           <ShoppingCart size={12} /> April 2026 Prices
@@ -68,11 +145,10 @@ export const GroceryCalculator: React.FC = () => {
         <h1 className="text-5xl font-black text-slate-900 leading-tight">
           Grocery Basket <span className="text-emerald-500">Calculator</span>
         </h1>
-        <p className="text-slate-500 text-lg leading-relaxed">{data.summary}</p>
+        <p className="text-slate-500 text-lg leading-relaxed">{summary}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* ── Item Grid ── */}
         <div className="lg:col-span-7 space-y-5">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-black text-slate-800">Tap items to add to basket</h2>
@@ -110,9 +186,7 @@ export const GroceryCalculator: React.FC = () => {
           </div>
         </div>
 
-        {/* ── Basket Sidebar ── */}
         <div className="lg:col-span-5 space-y-5 sticky top-28">
-          {/* Budget input */}
           <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-5 space-y-3">
             <label className="text-sm font-medium text-slate-700">Monthly Grocery Budget</label>
             <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5">
@@ -137,7 +211,11 @@ export const GroceryCalculator: React.FC = () => {
                 <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${
-                      percentUsed >= 100 ? 'bg-red-500' : percentUsed > 80 ? 'bg-orange-500' : 'bg-emerald-500'
+                      percentUsed >= 100
+                        ? 'bg-red-500'
+                        : percentUsed > 80
+                          ? 'bg-orange-500'
+                          : 'bg-emerald-500'
                     }`}
                     style={{ width: `${percentUsed}%` }}
                   />
@@ -146,7 +224,6 @@ export const GroceryCalculator: React.FC = () => {
             )}
           </div>
 
-          {/* Basket total */}
           <div className="bg-slate-900 rounded-2xl p-6 text-center space-y-2">
             <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">
               Basket Total
@@ -155,11 +232,12 @@ export const GroceryCalculator: React.FC = () => {
               {formatCurrency(total)}
             </p>
             {basketItems.length > 0 && (
-              <p className="text-slate-500 text-sm">{basketItems.length} item type{basketItems.length !== 1 ? 's' : ''}</p>
+              <p className="text-slate-500 text-sm">
+                {basketItems.length} item type{basketItems.length !== 1 ? 's' : ''}
+              </p>
             )}
           </div>
 
-          {/* Basket items list */}
           {basketItems.length > 0 ? (
             <div className="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden">
               <div className="px-4 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
@@ -216,32 +294,50 @@ export const GroceryCalculator: React.FC = () => {
           ) : (
             <div className="bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center space-y-2">
               <ShoppingCart className="mx-auto text-slate-300" size={32} />
-              <p className="text-slate-400 font-medium text-sm">Tap items on the left to build your basket</p>
+              <p className="text-slate-400 font-medium text-sm">
+                Tap items on the left to build your basket
+              </p>
             </div>
           )}
 
           <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl flex gap-3">
             <Info size={16} className="text-blue-500 shrink-0 mt-0.5" />
             <p className="text-xs text-blue-700 leading-relaxed">
-              Prices are average national retail. Actual prices vary by store, region and
-              promotions. Updated monthly.
+              Prices are average national retail. Actual prices vary by store, region and promotions.
+              Updated monthly.
             </p>
           </div>
         </div>
       </div>
 
-      {/* ── FAQ ── */}
-      <section className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm space-y-6 mt-8">
-        <h2 className="text-3xl font-black text-slate-900">Grocery Price FAQ</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {data.faqs.map((faq: any, i: number) => (
-            <div key={i} className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-              <h4 className="font-black text-slate-900 mb-2">{faq.q}</h4>
-              <p className="text-sm text-slate-500 leading-relaxed">{faq.a}</p>
+      {(hasPortableDeep || hasStringDeep) && (
+        <section className="bg-white p-10 md:p-12 rounded-[3rem] border border-slate-100 shadow-sm space-y-6 mt-4">
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900">
+            SA grocery prices &amp; household budgets
+          </h2>
+          {hasPortableDeep ? (
+            <div className="prose prose-slate prose-lg max-w-none prose-headings:font-black prose-a:text-emerald-600">
+              <PortableText value={deep} />
             </div>
-          ))}
-        </div>
-      </section>
+          ) : (
+            <div className="text-slate-600 leading-relaxed text-lg whitespace-pre-line">{deep}</div>
+          )}
+        </section>
+      )}
+
+      {faqs.length > 0 && (
+        <section className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm space-y-6 mt-8">
+          <h2 className="text-3xl font-black text-slate-900">Grocery Price FAQ</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {faqs.map((faq: any, i: number) => (
+              <div key={i} className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                <h4 className="font-black text-slate-900 mb-2">{faq.q}</h4>
+                <p className="text-sm text-slate-500 leading-relaxed">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 };

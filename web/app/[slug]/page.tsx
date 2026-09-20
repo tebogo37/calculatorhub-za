@@ -1,6 +1,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
-import { client, queries, MOCK_POSTS, MOCK_GUIDES } from '@/lib/sanity';
+import { client, queries, MOCK_POSTS, MOCK_GUIDES } from '@/lib/oldbkupsanity';
 import { ArrowLeft, Calendar, CheckCircle2, FileText } from 'lucide-react';
 import Link from 'next/link';
 

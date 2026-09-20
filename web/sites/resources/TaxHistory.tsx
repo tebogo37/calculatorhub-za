@@ -4,7 +4,7 @@ import React from 'react';
 import { Card } from '../../components/ui/Card';
 import { ArrowLeft, TrendingUp, Activity, Share2, HelpCircle, CheckCircle } from 'lucide-react';
 import { formatCurrency } from '../../lib/utils';
-import { MOCK_FAQS } from '../../lib/sanity';
+import { MOCK_FAQS } from '../../lib/oldbkupsanity';
 
 export const TaxHistory: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const data = [

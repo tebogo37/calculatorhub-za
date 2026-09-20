@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card } from '../../components/ui/Card';
 import { ExternalLink, Globe, ArrowLeft, ShieldCheck } from 'lucide-react';
-import { MOCK_FINANCIAL_LINKS } from '../../lib/sanity';
+import { MOCK_FINANCIAL_LINKS } from '../../lib/oldbkupsanity';
 
 export const LinksPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   return (

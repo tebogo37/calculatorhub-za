@@ -1,102 +1,47 @@
-// studio/schemas/essentials.ts
-// Add this to your Sanity studio schemas
+import {defineField, defineType} from 'sanity'
 
-export default {
+export default defineType({
   name: 'essentials',
-  title: 'SA Essentials (Prices & Calculators)',
+  title: 'SA Essentials Content',
   type: 'document',
   fields: [
-    {
+    defineField({
       name: 'category',
-      title: 'Category Key',
+      title: 'Category',
       type: 'string',
       options: {
-        list: ['fuel', 'groceries', 'travel', 'utilities'],
+        list: [
+          {title: 'Fuel', value: 'fuel'},
+          {title: 'Groceries', value: 'groceries'},
+          {title: 'Travel / Trip', value: 'travel'},
+          {title: 'Utilities', value: 'utilities'},
+        ],
       },
-    },
-    {
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'title',
       title: 'Page Title',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'summary',
-      title: 'Top Summary (SEO)',
+      title: 'Top Summary',
       type: 'text',
-    },
-    {
-      name: 'lastUpdated',
-      title: 'Prices Last Updated',
-      type: 'datetime',
-    },
-    // Fuel Prices
-    {
-      name: 'fuelPrices',
-      title: 'Current Fuel Prices (ZAR per litre)',
-      type: 'object',
-      fields: [
-        { name: 'unleaded95', title: 'Unleaded 95 (Inland)', type: 'number' },
-        { name: 'unleaded93', title: 'Unleaded 93 (Coastal)', type: 'number' },
-        { name: 'diesel50ppm', title: 'Diesel 50ppm', type: 'number' },
-        { name: 'effectiveDate', title: 'Price Effective Date', type: 'string' },
-      ],
-    },
-    // Grocery Basket Prices
-    {
-      name: 'groceryItems',
-      title: 'Grocery Basket Items',
+      rows: 4,
+    }),
+    defineField({
+      name: 'deepContent',
+      title: 'Deep Content (SEO)',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'name', title: 'Item Name', type: 'string' },
-            { name: 'unit', title: 'Unit (e.g. per 2L, per dozen)', type: 'string' },
-            { name: 'price', title: 'Average Price (ZAR)', type: 'number' },
-            { name: 'icon', title: 'Emoji Icon', type: 'string' },
-          ],
-        },
-      ],
-    },
-    // Car Tank Sizes (for fuel calculator)
-    {
-      name: 'commonCarTanks',
-      title: 'Common SA Car Tank Sizes',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'make', title: 'Make & Model', type: 'string' },
-            { name: 'tankLitres', title: 'Tank Size (litres)', type: 'number' },
-            { name: 'avgConsumption', title: 'Avg Consumption (L/100km)', type: 'number' },
-          ],
-        },
-      ],
-    },
-    // Route distances for travel calculator
-    {
-      name: 'popularRoutes',
-      title: 'Popular SA Routes',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'from', title: 'From', type: 'string' },
-            { name: 'to', title: 'To', type: 'string' },
-            { name: 'distanceKm', title: 'Distance (km)', type: 'number' },
-            { name: 'tollsZar', title: 'Estimated Tolls (ZAR)', type: 'number' },
-          ],
-        },
-      ],
-    },
-    {
+      of: [{type: 'block'}],
+    }),
+    defineField({
       name: 'metaDescription',
       title: 'Meta Description',
-      type: 'string',
-    },
-    {
+      type: 'text',
+    }),
+    defineField({
       name: 'faqs',
       title: 'FAQs',
       type: 'array',
@@ -104,11 +49,23 @@ export default {
         {
           type: 'object',
           fields: [
-            { name: 'q', title: 'Question', type: 'string' },
-            { name: 'a', title: 'Answer', type: 'text' },
+            {name: 'question', type: 'string'},
+            {name: 'answer', type: 'text'},
           ],
         },
       ],
-    },
+    }),
+    // Keep the price-related fields for reference / admin
+    defineField({
+      name: 'notes',
+      title: 'Internal Notes',
+      type: 'text',
+    }),
   ],
-}
+  preview: {
+    select: {
+      title: 'category',
+      subtitle: 'title',
+    },
+  },
+})

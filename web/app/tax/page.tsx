@@ -1,21 +1,19 @@
-
-'use client';
-
-import { useRouter } from 'next/navigation';
 import { Layout } from '../../components/shared/Layout';
 import { TaxPage } from '../../sites/tax/TaxPage';
+import { getRecentPosts, getSiteContent } from '../../lib/sanity';
 
-export default function TaxRoute() {
-  const router = useRouter();
-  
+export default async function TaxRoute() {
+  const [recentPosts, siteContent] = await Promise.all([
+    getRecentPosts('tax'),
+    getSiteContent('tax'),
+  ]);
+
   return (
-    <Layout 
-      activeSite="tax" 
-      currentPage="tools"
-      onNavigate={(path) => router.push(path)}
-      onSiteChange={(site) => router.push(`/${site}`)}
-    >
-      <TaxPage onNavigatePost={(slug) => router.push(`/${slug}`)} />
+    <Layout activeSite="tax" currentPage="tools">
+      <TaxPage 
+        recentPosts={recentPosts} 
+        siteContent={siteContent} 
+      />
     </Layout>
   );
 }

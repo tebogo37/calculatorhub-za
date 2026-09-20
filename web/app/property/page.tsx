@@ -1,21 +1,16 @@
-
-'use client';
-
-import { useRouter } from 'next/navigation';
 import { Layout } from '../../components/shared/Layout';
 import { PropertyPage } from '../../sites/property/PropertyPage';
+import { getRecentPosts, getSiteContent } from '../../lib/sanity';
 
-export default function PropertyRoute() {
-  const router = useRouter();
-  
+export default async function PropertyRoute() {
+  const [recentPosts, siteContent] = await Promise.all([
+    getRecentPosts('property'),
+    getSiteContent('property'),
+  ]);
+
   return (
-    <Layout 
-      activeSite="property" 
-      currentPage="tools"
-      onNavigate={(path) => router.push(path)}
-      onSiteChange={(site) => router.push(`/${site}`)}
-    >
-      <PropertyPage onNavigatePost={(slug) => router.push(`/${slug}`)} />
+    <Layout activeSite="property" currentPage="tools">
+      <PropertyPage recentPosts={recentPosts} siteContent={siteContent} />
     </Layout>
   );
 }

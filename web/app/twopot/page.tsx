@@ -1,15 +1,16 @@
-
-'use client';
-
-import { useRouter } from 'next/navigation';
 import { Layout } from '../../components/shared/Layout';
 import { TwoPotPage } from '../../sites/twopot/TwoPotPage';
+import { getRecentPosts, getSiteContent } from '../../lib/sanity';
 
-export default function TwoPotRoute() {
-  const router = useRouter();
+export default async function TwoPotRoute() {
+  const [recentPosts, siteContent] = await Promise.all([
+    getRecentPosts('twopot'),
+    getSiteContent('twopot'),
+  ]);
+
   return (
     <Layout activeSite="twopot" currentPage="tools">
-      <TwoPotPage onNavigatePost={(slug) => router.push(`/${slug}`)} />
+      <TwoPotPage recentPosts={recentPosts} siteContent={siteContent} />
     </Layout>
   );
 }

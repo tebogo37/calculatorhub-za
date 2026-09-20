@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { client, queries, MOCK_POSTS } from '../../lib/sanity';
+import { client, queries, MOCK_POSTS } from '../../lib/oldbkupsanity';
 import { RichText } from '../../components/shared/RichText';
 import { ArrowLeft, Calendar, Share2 } from 'lucide-react';
 

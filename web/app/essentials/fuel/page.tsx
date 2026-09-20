@@ -1,13 +1,12 @@
-'use client';
-import { useRouter } from 'next/navigation';
 import { Layout } from '../../../components/shared/Layout';
 import { FuelCalculator } from '../../../sites/essentials/FuelCalculator';
+import { getSiteContent } from '../../../lib/sanity';
 
-export default function FuelRoute() {
-  const router = useRouter();
+export default async function FuelRoute() {
+  const siteContent = await getSiteContent('fuel');
   return (
-    <Layout activeSite="home" currentPage="essentials" onNavigate={(p) => router.push(p)}>
-      <FuelCalculator />
+    <Layout activeSite="home" currentPage="essentials">
+      <FuelCalculator siteContent={siteContent} />
     </Layout>
   );
 }

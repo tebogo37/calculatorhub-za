@@ -1,13 +1,13 @@
-
-'use client';
-
 import { Layout } from '../../components/shared/Layout';
 import { RefundEstimator } from '../../sites/tax/RefundEstimator';
+import { getSiteContent } from '../../lib/sanity';
 
-export default function RefundRoute() {
+export default async function RefundRoute() {
+  const siteContent = await getSiteContent('refund');
+
   return (
     <Layout activeSite="tax" currentPage="refund-estimator">
-      <RefundEstimator />
+      <RefundEstimator siteContent={siteContent} />
     </Layout>
   );
 }
