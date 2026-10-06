@@ -2,7 +2,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import './globals.css';
-import { GoogleAnalytics } from '@next/third-parties/google';
+
 import { Analytics } from '@vercel/analytics/next';
 import Script from 'next/script';
 
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description:
     'Free South African calculators for income tax, VAT, transfer duty, Two-Pot, fuel and groceries — 2026 Budget cycle.',
   icons: {
-    icon: '/icon', // Points to the icon.tsx we created
+    icon: '/icon', // Points to the icon.tsx we created <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />  import { GoogleAnalytics } from '@next/third-parties/google';
   },
   openGraph: {
     type: 'website',
@@ -29,6 +29,8 @@ export const metadata: Metadata = {
   },
   
 };
+
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -44,23 +46,43 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="antialiased bg-slate-50 text-slate-900 font-inter">
         {children}
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
-          
-<Analytics />
+       
+          <Analytics />
 
-<Script
-  src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
-  strategy="afterInteractive"
-/>
-<Script id="ga-manual" strategy="afterInteractive">
-  {`
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); 
-    gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
-    console.log('GA4 initialized manually – check network tab');
-  `}
-</Script>
+{GTM_ID && (
+  <>
+    <Script id="gcm-defaults" strategy="beforeInteractive">
+      {`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          analytics_storage: 'denied',
+          wait_for_update: 500
+        });
+      `}
+    </Script>
+    <Script id="gtm" strategy="afterInteractive">
+      {`
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','${GTM_ID}');
+      `}
+    </Script>
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+        height="0"
+        width="0"
+        style={{ display: 'none', visibility: 'hidden' }}
+      />
+    </noscript>
+  </>
+)}
 
       </body>
     </html>
