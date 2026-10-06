@@ -120,8 +120,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeSite, currentPag
                 <li><Link href="/links" className="hover:text-emerald-400 flex items-center justify-center md:justify-start gap-1">Financial Directory <ArrowRight size={12} /></Link></li>
                 <li><Link href="/essentials/fuel" className="hover:text-emerald-400">Fuel Calculator</Link></li>
                 <li><Link href="/essentials/groceries" className="hover:text-emerald-400">Grocery Basket</Link></li>
-                <Link href="/privacy">Privacy Policy</Link>
-                <Link href="/terms">Terms of Use</Link>
+                <li><Link href="/terms">Terms of Use</Link></li>
+                 <li><Link href="/privacy">Privacy Policy</Link></li>
+                
+                
               </ul>
             </div>
           </div>

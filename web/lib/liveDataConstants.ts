@@ -4,32 +4,34 @@
 // Every component, hook, and API route imports from here.
 // The crawler overwrites this via KV. If KV is cold, these values show.
 // Update these manually whenever the crawler's fallback drifts.
+// Last manual refresh: 6–7 October 2026
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const LIVE_DATA_VERSION = '2026-10'
 
-// ── Fuel prices (DMRE — updated first Wednesday of each month) ────────────────
+// ── Fuel prices (DMPR / CEF — effective 07 October 2026) ──────────────────────
+// Petrol = regulated retail · Diesel = gazetted wholesale (pump may vary)
 export const FUEL_DEFAULTS = {
-  last_updated:   '06 October 2026',
+  last_updated:   '07 October 2026',
   effective_date: '2026-10-07',
-  source:         'DMRE via AA South Africa',
+  source:         'DMPR / CEF official adjustment',
   inland: {
-    unleaded_95:   21.84,
-    unleaded_93:   21.59,
-    diesel_50ppm:  19.78,
-    diesel_500ppm: 19.70,
+    unleaded_95:   30.25,
+    unleaded_93:   29.88,
+    diesel_50ppm:  33.29,
+    diesel_500ppm: 31.95,
   },
   coastal: {
-    unleaded_95:   21.01,
-    unleaded_93:   20.74,
-    diesel_50ppm:  19.03,
-    diesel_500ppm: 18.95,
+    unleaded_95:   29.38,
+    unleaded_93:   29.09,
+    diesel_50ppm:  32.03,
+    diesel_500ppm: 31.08,
   },
 }
 
-// ── Exchange rates (updated daily by crawler) ─────────────────────────────────
-// Sources: USD/ZAR ~16.53 (6 Oct 2026); GBP/ZAR ~22.01; EUR/ZAR ~18.67
-// SARB repo 7.25% / prime 10.75% effective 25 Sep 2026
+// ── Exchange rates (snapshot ~6 October 2026) ─────────────────────────────────
+// USD/ZAR ~16.53 · GBP/ZAR ~22.01 · EUR/ZAR ~18.67
+// SARB repo 7.25% / prime 10.75% (effective 25 September 2026)
 export const EXCHANGE_DEFAULTS = {
   zar_usd:      16.53,
   zar_gbp:      22.01,
@@ -41,9 +43,8 @@ export const EXCHANGE_DEFAULTS = {
   last_updated: '6 October 2026',
 }
 
-// ── JSE + Oil (updated daily by crawler) ─────────────────────────────────────
-// FTSE/JSE Top 40 close 6 Oct 2026 ≈ 101,162 · All Share ≈ 108,881
-// Brent crude ≈ USD 100.25 (6 Oct 2026)
+// ── JSE + Oil (snapshot ~6 October 2026) ─────────────────────────────────────
+// FTSE/JSE Top 40 ≈ 101,162 · All Share ≈ 108,881 · Brent ≈ USD 100.25
 export const JSE_DEFAULTS = {
   top40:        101_162,
   all_share:    108_881,
@@ -57,8 +58,7 @@ export const OIL_DEFAULTS = {
   last_updated: '6 October 2026',
 }
 
-// ── Grocery basket (updated weekly by crawler) ────────────────────────────────
-// Indicative SA retail averages (Oct 2026 planning levels) — not a formal Stats SA series
+// ── Grocery basket (indicative national retail averages — October 2026) ───────
 export const GROCERY_DEFAULTS = {
   average_basket: 742.5,
   last_updated:   'October 2026',
