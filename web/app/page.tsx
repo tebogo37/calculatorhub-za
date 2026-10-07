@@ -1,15 +1,14 @@
 import type { Metadata } from 'next';
 import { Layout } from '../components/shared/Layout';
 import { HomePage } from '../sites/Home/HomePage';
-import { getSiteContent } from '../lib/sanity';
+import { getSiteContent, getRecentPosts } from '../lib/sanity';
 
 const SITE_URL = 'https://www.calculatorhub.co.za';
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getSiteContent('home');
 
-  const title =
-    content?.seoTitle || 'SA Tax, VAT & Fuel Calculators';
+  const title = content?.seoTitle || 'SA Tax, VAT & Fuel Calculators';
   const description =
     content?.metaDescription ||
     content?.summary ||
@@ -19,9 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: {
-      canonical: `${SITE_URL}/`,
-    },
+    alternates: { canonical: `${SITE_URL}/` },
     openGraph: {
       title,
       description,
@@ -39,11 +36,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootPage() {
-  const siteContent = await getSiteContent('home');
+  const [siteContent, recentPosts] = await Promise.all([
+    getSiteContent('home'),
+    getRecentPosts('home'),
+  ]);
 
   return (
     <Layout activeSite="home" currentPage="tools">
-      <HomePage siteContent={siteContent} />
+      <HomePage siteContent={siteContent} recentPosts={recentPosts} />
     </Layout>
   );
 }

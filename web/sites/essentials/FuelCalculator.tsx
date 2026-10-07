@@ -8,6 +8,8 @@ import { formatCurrency } from '../../lib/utils';
 import { Fuel, MapPin, Car, Info, ChevronDown, RefreshCw } from 'lucide-react';
 import { MOCK_ESSENTIALS } from '../../lib/sanity';
 import { useLiveRates } from '../../hooks/useLiveRates';
+import { useRouter } from 'next/navigation';
+import { RecentPosts } from '../../components/shared/RecentPosts';
 
 const SITE_URL = 'https://www.calculatorhub.co.za';
 
@@ -21,9 +23,12 @@ const FUEL_LABELS: Record<FuelType, string> = {
 
 interface FuelCalculatorProps {
   siteContent?: any;
+  recentPosts?: any[];
 }
 
-export const FuelCalculator: React.FC<FuelCalculatorProps> = ({ siteContent }) => {
+export const FuelCalculator: React.FC<FuelCalculatorProps> = ({ siteContent,
+  recentPosts = [], }) => {
+  const router = useRouter();
   const mock = MOCK_ESSENTIALS.fuel;
   const { commonCarTanks, popularRoutes } = mock;
 
@@ -483,6 +488,11 @@ export const FuelCalculator: React.FC<FuelCalculatorProps> = ({ siteContent }) =
           </div>
         </section>
       )}
+
+            <RecentPosts
+        posts={recentPosts}
+        onNavigate={(path) => router.push(`/${path}`)}
+      />
     </div>
   );
 };

@@ -125,6 +125,31 @@ export async function getPostBySlug(slug: string) {
   }
 }
 
+/** Fuel page: targetSite "fuel" OR fuel-related titles (many posts are tagged home) */
+export async function getFuelRelatedPosts() {
+  if (!isSanityConfigured) return [];
+  try {
+    return await client.fetch(
+      `*[_type == "post" && (
+        targetSite == "fuel" ||
+        title match "*Fuel*" ||
+        title match "*fuel*" ||
+        title match "*Petrol*" ||
+        title match "*Diesel*"
+      )] | order(publishedAt desc)[0...6]{
+        title,
+        "slug": slug.current,
+        excerpt,
+        publishedAt,
+        targetSite,
+        mainImage
+      }`
+    );
+  } catch {
+    return [];
+  }
+}
+
 export const MOCK_SITE_CONTENT = {
   home: {
     heroTitle: 'SA Financial Precision.',

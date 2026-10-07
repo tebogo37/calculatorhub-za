@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { MOCK_SITE_CONTENT } from '../../lib/sanity';
 import { useLiveRates } from '../../hooks/useLiveRates';
+import { useRouter } from 'next/navigation';
+import { RecentPosts } from '../../components/shared/RecentPosts';
 
 const SITE_URL = 'https://www.calculatorhub.co.za';
 
@@ -45,9 +47,12 @@ const BASKET_CONFIG = [
 
 interface HomePageProps {
   siteContent?: any;
+  recentPosts?: any[];
 }
 
-export const HomePage: React.FC<HomePageProps> = ({ siteContent }) => {
+export const HomePage: React.FC<HomePageProps> = ({ siteContent,
+  recentPosts = [], }) => {
+  const router = useRouter();
   const content = {
     ...MOCK_SITE_CONTENT.home,
     ...(siteContent || {}),
@@ -483,6 +488,11 @@ export const HomePage: React.FC<HomePageProps> = ({ siteContent }) => {
             </p>
           </div>
         </section>
+
+        <RecentPosts
+          posts={recentPosts}
+          onNavigate={(path) => router.push(`/${path}`)}
+        />
       </div>
     </div>
   );
